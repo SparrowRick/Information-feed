@@ -5,10 +5,11 @@
 ## 运行
 
 ```bash
-cd /workspace/ashare-daily-review
-python -m review.build --date 2026-09-08 --out out
-python -m review.build --out out          # 默认：上海时区最近已收盘交易日
-python -m review --date 2026-09-08 --out out
+# 在仓库根目录 SparrowRick/Information-feed
+export HITHINK_FINANCE_API_KEY=...   # 或放进本机 secrets，禁止提交 Key
+python3 -m review --date 2026-09-08 --out out
+python3 -m review --out out            # 默认：上海时区最近已收盘交易日
+python3 -m review.build --date 2026-09-08 --out out
 ```
 
 | 参数 | 说明 |
