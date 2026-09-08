@@ -1,0 +1,2 @@
+# Stdlib only (Python 3.11+). urllib / json / argparse / zoneinfo are used.
+# No third-party packages required.
