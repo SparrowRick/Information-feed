@@ -1,0 +1,11 @@
+{
+  "status": "pending_activation",
+  "reason": "GitHub App installed; activate after the initial publication is read back successfully.",
+  "request": {
+    "title": "生成A股盘前简报",
+    "default_timezone": "Asia/Shanghai",
+    "timing_mode": "exact_schedule",
+    "schedule": "BEGIN:VEVENT\nDTSTART;TZID=Asia/Shanghai:20260909T080000\nRRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;BYHOUR=8;BYMINUTE=0;BYSECOND=0\nEND:VEVENT",
+    "prompt": "为我生成一份服务于1—5个交易日短期交易的A股盘前简报，全市场筛选，没有固定行业或自选股，并上传到GitHub仓库 SparrowRick/Information-feed 的 main 分支。我已授权发布本项目的feed及日期归档。每次先从仓库读取 docs/EDITORIAL.md、config.json、sources.json、schema/feed.schema.json、scripts/feed_tool.py、覆盖本次前后五个交易日的 calendar/YYYY.json 和现有 feed.json，并按仓库目录结构保存校验脚本和日历，依照仓库规则执行，不依赖上次运行的本地状态。先用交易所当年和最新临时公告核实北京时间今天是否A股交易日，休市静默跳过，无法核实则保留旧feed并说明失败。联网打开原文核实消息、发布时间和行情交易日，区分事实与判断，不采纳截稿之后的信息。以实际完成采集时刻截稿，最晚08:20，目标08:30前可阅读；09:00后不得当实时盘前发布。正文600—1000字，包含约100字概况、最多5条重要事件或风险、最多2条原版判断跟踪、最多3项未来五个交易日日程；消息少可少写。每条新闻写新增变化、截至截稿的已知市场反应、验证条件与失效条件，有原文链接和发布时间。没有可靠行情就留空并明确缺项，不虚构公司关联。复盘从真实盘前归档取原话，检查第1、3、5个交易日，排除回溯样稿和无来源旧版。按v2合约校验，保留旧字段和历史条目，同一次Git提交更新feed.json与archive/YYYY-MM-DD.json；已存在同日归档不得重写。非强制更新main，冲突则读最新版本重新合并，最多重试两次。写入后重新读取核对，成功只回报简短摘要与提交链接。任何来源或GitHub权限失败如实说明，不伪称上传完成；不恢复其他已暂停任务，不发送邮件或消息给第三方。"
+  }
+}

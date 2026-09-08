@@ -1,0 +1,622 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Information-feed v2",
+  "description": "Structural contract. Also run scripts/feed_tool.py for chronology, source references, exchange calendar, immutable history and legacy cutoff checks.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "const": "2.0"
+    },
+    "timezone": {
+      "const": "Asia/Shanghai"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "\\+08:00$"
+    },
+    "latest_premarket_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "$ref": "#/$defs/premarket"
+          },
+          {
+            "$ref": "#/$defs/legacy"
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schema_version",
+    "timezone",
+    "updated_at",
+    "latest_premarket_id",
+    "items"
+  ],
+  "additionalProperties": true,
+  "$defs": {
+    "source": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "publisher": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_type": {
+          "enum": [
+            "official",
+            "company",
+            "media",
+            "data"
+          ]
+        },
+        "published_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "\\+08:00$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "published_date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "retrieved_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "\\+08:00$"
+        },
+        "time_precision": {
+          "enum": [
+            "minute",
+            "day",
+            "unknown"
+          ]
+        },
+        "timing_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reference_only": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "url",
+        "publisher",
+        "source_type",
+        "published_at",
+        "published_date",
+        "retrieved_at",
+        "time_precision",
+        "timing_note"
+      ],
+      "additionalProperties": true
+    },
+    "metric": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "number"
+        },
+        "unit": {
+          "type": "string",
+          "minLength": 1
+        },
+        "change_pct": {
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "as_of": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "\\+08:00$"
+        },
+        "session": {
+          "enum": [
+            "close",
+            "snapshot"
+          ]
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 15,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "value",
+        "unit",
+        "change_pct",
+        "as_of",
+        "session",
+        "source_ids"
+      ],
+      "additionalProperties": true
+    },
+    "company": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^\\d{6}$"
+        },
+        "exchange": {
+          "enum": [
+            "SSE",
+            "SZSE",
+            "BSE"
+          ]
+        },
+        "relation": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 15,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "name",
+        "code",
+        "exchange",
+        "relation",
+        "source_ids"
+      ],
+      "additionalProperties": true
+    },
+    "news": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9-]{1,100}$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "why": {
+          "type": "string",
+          "minLength": 1
+        },
+        "what_changed": {
+          "type": "string",
+          "minLength": 1
+        },
+        "priced_in": {
+          "type": "string",
+          "minLength": 1
+        },
+        "watch": {
+          "type": "string",
+          "minLength": 1
+        },
+        "invalidates": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "enum": [
+            "catalyst",
+            "risk"
+          ]
+        },
+        "novelty": {
+          "enum": [
+            "new",
+            "update",
+            "known"
+          ]
+        },
+        "sectors": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "maxItems": 6
+        },
+        "companies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/company"
+          },
+          "maxItems": 3
+        },
+        "follow_until": {
+          "type": "string",
+          "format": "date"
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 15,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "why",
+        "what_changed",
+        "priced_in",
+        "watch",
+        "invalidates",
+        "kind",
+        "novelty",
+        "sectors",
+        "companies",
+        "follow_until",
+        "source_ids"
+      ],
+      "additionalProperties": true
+    },
+    "review": {
+      "type": "object",
+      "properties": {
+        "original_report_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "original_event_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "original_view": {
+          "type": "string",
+          "minLength": 1
+        },
+        "day_offset": {
+          "enum": [
+            1,
+            3,
+            5
+          ]
+        },
+        "status": {
+          "enum": [
+            "supported",
+            "weakened",
+            "pending",
+            "unverifiable"
+          ]
+        },
+        "what_happened": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 0,
+          "maxItems": 15,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "original_report_id",
+        "original_event_id",
+        "original_view",
+        "day_offset",
+        "status",
+        "what_happened",
+        "source_ids"
+      ],
+      "additionalProperties": true
+    },
+    "calendar": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "scheduled_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "\\+08:00$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time_precision": {
+          "enum": [
+            "minute",
+            "day"
+          ]
+        },
+        "why": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 15,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "title",
+        "date",
+        "scheduled_at",
+        "time_precision",
+        "why",
+        "source_ids"
+      ],
+      "additionalProperties": true
+    },
+    "premarket": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "const": 2
+        },
+        "id": {
+          "type": "string",
+          "pattern": "^premarket-\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "type": {
+          "const": "premarket"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        },
+        "timezone": {
+          "const": "Asia/Shanghai"
+        },
+        "edition": {
+          "enum": [
+            "live",
+            "retrospective"
+          ]
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "\\+08:00$"
+        },
+        "cutoff_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "\\+08:00$"
+        },
+        "target_publish_at": {
+          "type": "string",
+          "format": "date-time",
+          "pattern": "\\+08:00$"
+        },
+        "is_trading_day": {
+          "const": true
+        },
+        "coverage": {
+          "type": "object",
+          "properties": {
+            "from": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "\\+08:00$"
+            },
+            "to": {
+              "type": "string",
+              "format": "date-time",
+              "pattern": "\\+08:00$"
+            },
+            "status": {
+              "enum": [
+                "complete",
+                "partial"
+              ]
+            },
+            "gaps": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              },
+              "maxItems": 30
+            }
+          },
+          "required": [
+            "from",
+            "to",
+            "status",
+            "gaps"
+          ],
+          "additionalProperties": true
+        },
+        "overnight": {
+          "type": "string",
+          "minLength": 1
+        },
+        "overview_source_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "minItems": 1,
+          "maxItems": 15,
+          "uniqueItems": true
+        },
+        "market_snapshot": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/metric"
+          },
+          "maxItems": 12
+        },
+        "market_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "today": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/news"
+          },
+          "maxItems": 5
+        },
+        "review": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/review"
+          },
+          "maxItems": 2
+        },
+        "review_note": {
+          "type": "string",
+          "minLength": 1
+        },
+        "calendar": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/calendar"
+          },
+          "maxItems": 3
+        },
+        "sources": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          },
+          "maxItems": 40,
+          "minItems": 1
+        }
+      },
+      "required": [
+        "version",
+        "id",
+        "type",
+        "title",
+        "date",
+        "timezone",
+        "edition",
+        "generated_at",
+        "cutoff_at",
+        "target_publish_at",
+        "is_trading_day",
+        "coverage",
+        "overnight",
+        "overview_source_ids",
+        "market_snapshot",
+        "market_note",
+        "today",
+        "review",
+        "review_note",
+        "calendar",
+        "sources"
+      ],
+      "additionalProperties": true
+    },
+    "legacy": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^(premarket|patrol)-\\d{4}-\\d{2}-\\d{2}$"
+        },
+        "type": {
+          "enum": [
+            "premarket",
+            "patrol"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "type"
+      ],
+      "additionalProperties": true,
+      "not": {
+        "required": [
+          "version"
+        ]
+      },
+      "description": "Read-only pre-2026-09-05 history. New reports must use version 2; cutoff enforced by feed_tool.py."
+    }
+  }
+}

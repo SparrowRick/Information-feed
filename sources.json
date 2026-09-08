@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "note": "这是检索入口清单，不是已经接通的 API。新闻和行情逐次查证；无法获取的项应在 coverage.gaps 标明。",
+  "groups": [
+    {
+      "name": "上市公司与交易安排",
+      "priority": 1,
+      "entries": [
+        {"name": "巨潮资讯", "url": "https://www.cninfo.com.cn/", "use": "公告原文；入口访问不稳时到交易所或公司官网核验"},
+        {"name": "上交所", "url": "https://www.sse.com.cn/", "use": "公司公告、交易日历和监管通知"},
+        {"name": "深交所", "url": "https://www.szse.cn/", "use": "公司公告、交易安排"},
+        {"name": "北交所", "url": "https://www.bse.cn/", "use": "北交所公告与交易安排"},
+        {"name": "港交所披露易", "url": "https://www.hkexnews.hk/", "use": "A+H公司公告及海外监管公告"}
+      ]
+    },
+    {
+      "name": "政策与数据原文",
+      "priority": 1,
+      "entries": [
+        {"name": "中国政府网", "url": "https://www.gov.cn/zhengce/", "use": "政策原文、实施日和解读"},
+        {"name": "央行", "url": "https://www.pbc.gov.cn/", "use": "货币政策、流动性和金融数据"},
+        {"name": "证监会", "url": "https://www.csrc.gov.cn/", "use": "证券监管与资本市场政策"},
+        {"name": "工信部", "url": "https://www.miit.gov.cn/", "use": "产业政策"},
+        {"name": "国家统计局", "url": "https://www.stats.gov.cn/sj/", "use": "数据及发布日历"},
+        {"name": "发改委", "url": "https://www.ndrc.gov.cn/", "use": "产业、投资与价格政策"},
+        {"name": "财政部", "url": "https://www.mof.gov.cn/", "use": "财政、税收与特别国债"}
+      ]
+    },
+    {
+      "name": "新闻线索与交叉核实",
+      "priority": 2,
+      "entries": [
+        {"name": "财联社", "url": "https://www.cls.cn/telegraph", "use": "公开快讯；确认原文日期，优先追溯原始发布者"},
+        {"name": "新华财经", "url": "https://www.cnfin.com/", "use": "公开财经报道与早报"},
+        {"name": "证券时报", "url": "https://www.stcn.com/", "use": "产业报道、公告报道、注明交易日的收盘数据"},
+        {"name": "上海证券报", "url": "https://www.cnstock.com/", "use": "政策、行业与公告原文"}
+      ]
+    },
+    {
+      "name": "海外",
+      "priority": 2,
+      "entries": [
+        {"name": "美联储", "url": "https://www.federalreserve.gov/newsevents.htm", "use": "决议、讲话原文"},
+        {"name": "美国劳工统计局", "url": "https://www.bls.gov/schedule/news_release/", "use": "CPI、PPI、非农日历与原始数据"},
+        {"name": "NYSE交易日历", "url": "https://www.nyse.com/trade/hours-calendars", "use": "确认美股休市，避免把前一交易日数据当作昨夜涨跌"},
+        {"name": "公司IR", "url": null, "use": "按当日事件定位实际公司官网，核实财报、指引及产品日程"}
+      ]
+    }
+  ],
+  "market_data": {
+    "mode": "timestamped_public_reports",
+    "dedicated_api_connected": false,
+    "rule": "首版引用有明确交易日、时点、口径的原始行情页或可信报道。正式行情 API 未接通；不宣称实时行情。",
+    "preferred_metrics": ["上证指数", "深证成指", "创业板指", "沪深成交额", "涨跌家数", "标普500", "纳斯达克指数", "美元兑离岸人民币", "美国10年期国债收益率", "布伦特原油", "黄金"]
+  }
+}

@@ -1,0 +1,14 @@
+[Unit]
+Description=Refresh A-share premarket feed
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Adjust the repository path, output path and user for your server.
+User=www-data
+WorkingDirectory=/opt/Information-feed
+ExecStart=/usr/bin/python3 /opt/Information-feed/scripts/sync_feed.py --output /var/www/html/data/feed.json
+TimeoutStartSec=55
+NoNewPrivileges=true
+PrivateTmp=true

@@ -1,6 +1,279 @@
 {
-  "updated_at": "2026-09-04T08:30:00+08:00",
+  "updated_at": "2026-09-08T12:34:28+08:00",
   "items": [
+    {
+      "version": 2,
+      "id": "premarket-2026-09-08",
+      "type": "premarket",
+      "title": "9月8日A股盘前回溯样稿",
+      "date": "2026-09-08",
+      "timezone": "Asia/Shanghai",
+      "edition": "retrospective",
+      "generated_at": "2026-09-08T11:28:24+08:00",
+      "cutoff_at": "2026-09-08T08:20:00+08:00",
+      "target_publish_at": "2026-09-08T08:30:00+08:00",
+      "is_trading_day": true,
+      "coverage": {
+        "from": "2026-09-07T15:00:00+08:00",
+        "to": "2026-09-08T08:20:00+08:00",
+        "status": "partial",
+        "gaps": [
+          "本期在开盘后编制，按原文发布时间回溯盘前信息；没有严格历史网页快照，不用于回测或判断命中率。",
+          "首版尚未接通固定行情API。本期仅核实昨日A股三指数收盘数据，成交额、涨跌家数及汇债商品报价留空。",
+          "通信规划尚未取得工信部原文直链，本期采用有明确时间的人民财讯报道。",
+          "未核实各关联公司的近期完整价格序列，不能判断事件是否已被充分计价。"
+        ]
+      },
+      "overnight": "盘前回溯样稿，仅使用9月8日08:20前公开的事件信息。昨日创业板指涨3.41%，上证指数涨0.07%，两者强弱差距较大。美国9月7日因劳动节休市，没有新的美股收盘可作隔夜参照。今天先看国产算力规划能否带来板块内更多公司的响应，再看券商合并获批后的表现；前期急涨公司的异动公告也需要一起看。",
+      "overview_source_ids": [
+        "ashare-close",
+        "compute-plan",
+        "cicc-news",
+        "nyse-calendar"
+      ],
+      "market_snapshot": [
+        {
+          "name": "上证指数",
+          "value": 3932.7,
+          "unit": "点",
+          "change_pct": 0.07,
+          "as_of": "2026-09-07T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close"
+          ]
+        },
+        {
+          "name": "深证成指",
+          "value": 13774.91,
+          "unit": "点",
+          "change_pct": 1.91,
+          "as_of": "2026-09-07T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close"
+          ]
+        },
+        {
+          "name": "创业板指",
+          "value": 3398.68,
+          "unit": "点",
+          "change_pct": 3.41,
+          "as_of": "2026-09-07T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close"
+          ]
+        }
+      ],
+      "market_note": "上述为9月7日收盘值，来自带日期的证券时报·数据宝报道。其他行情未取得可靠时点，本期不填。",
+      "today": [
+        {
+          "id": "compute-plan-20260907",
+          "kind": "catalyst",
+          "novelty": "new",
+          "title": "算力规划新增部署，接下来核对招标和订单",
+          "why": "工信部规划提出部署万卡、十万卡及以上智算集群，并加大国产算力芯片适配力度。消息在昨日15:38已有报道。未来几天可观察国产算力相关公司的响应是否扩大，并核对新增招标。规划本身没有给出具体公司的近期收入增量；缺少个股价格序列，本期不判断这条消息是否已经充分计价。",
+          "what_changed": "9月7日公布的信息通信行业“十五五”规划，明确智算集群部署及国产算力适配方向。",
+          "priced_in": "能确认消息昨日收盘后已有报道；没有核实相关板块与个股此前完整涨幅，无法判定已计价程度。",
+          "watch": "观察后续是否出现与规划对应的招标、项目落地和公司公告；价格表现待开盘后验证。",
+          "invalidates": "后续只有重复转述，且没有新增项目或订单，则短期催化依据减弱。",
+          "sectors": [
+            "国产算力",
+            "服务器"
+          ],
+          "companies": [],
+          "follow_until": "2026-09-15",
+          "source_ids": [
+            "compute-plan"
+          ]
+        },
+        {
+          "id": "cicc-merger-20260907",
+          "kind": "catalyst",
+          "novelty": "update",
+          "title": "中金合并获批，9月15日停牌日程确定",
+          "why": "中金吸收合并东兴、信达的新增进展是证监会批复及停牌安排。三家公司A股将于9月15日起停牌，已进入未来五个交易日的观察范围。这次可跟踪审批落地后的市场反应，但获批本身不能推出还有多少上涨空间；对1—5日持有计划，停牌会直接改变可卖出的时间，也需要单独评估。",
+          "what_changed": "公司9月7日公告获得证监会同意注册及核准批复，并明确9月15日起停牌。",
+          "priced_in": "交易方案此前已公开，此次属于审批与执行时间更新；本期没有足够价格数据判断新增预期差。",
+          "watch": "核对三家公司正式停牌和异议股东权利安排，观察审批落地后的实际市场反应。",
+          "invalidates": "若交易进度或停复牌安排发生变化，须依据新公告修正判断。",
+          "sectors": [
+            "证券"
+          ],
+          "companies": [
+            {
+              "name": "中金公司",
+              "code": "601995",
+              "exchange": "SSE",
+              "relation": "本次换股吸收合并的存续主体，公告发布方。",
+              "source_ids": [
+                "cicc-news",
+                "cicc-announcement"
+              ]
+            }
+          ],
+          "follow_until": "2026-09-15",
+          "source_ids": [
+            "cicc-news",
+            "cicc-detail",
+            "cicc-announcement"
+          ]
+        },
+        {
+          "id": "kinwong-risk-20260907",
+          "kind": "risk",
+          "novelty": "update",
+          "title": "景旺电子异动公告：急涨之后核对业绩依据",
+          "why": "景旺电子9月4日、7日两日收盘涨幅偏离值累计超过20%，公司发布异动公告。公告同时提示上半年归母净利润同比下降7.38%，并称不存在应披露而未披露的重大信息。短期可以跟踪波动和后续经营披露；目前的公告没有确认新的业绩加速依据，也不能仅凭风险提示就预判次日下跌。",
+          "what_changed": "公司发布股票交易异常波动公告，核实近期价格波动及经营信息。",
+          "priced_in": "公司公告已经确认两日涨幅偏离值累计超过20%；这是相对基准的偏离值，不能当成两日绝对涨幅。",
+          "watch": "核对随后是否有新的经营披露或订单证据；当日承接与量价需在开盘后观察。",
+          "invalidates": "若后续出现可核实的业绩或订单改善，应重新评估对基本面证据不足的判断。",
+          "sectors": [
+            "PCB"
+          ],
+          "companies": [
+            {
+              "name": "景旺电子",
+              "code": "603228",
+              "exchange": "SSE",
+              "relation": "异动公告的直接发布公司，所处行业为PCB。",
+              "source_ids": [
+                "abnormal-news",
+                "kinwong-announcement"
+              ]
+            }
+          ],
+          "follow_until": "2026-09-15",
+          "source_ids": [
+            "abnormal-news",
+            "kinwong-announcement"
+          ]
+        }
+      ],
+      "review": [],
+      "review_note": "新规则首期尚无实时盘前判断可复盘。旧版记录缺少逐条来源和观察条件，本期不对其评分；后续从正式发布的原版开始做第1、3、5个交易日跟踪。",
+      "calendar": [
+        {
+          "title": "中金公司、东兴证券、信达证券A股开始停牌",
+          "date": "2026-09-15",
+          "scheduled_at": null,
+          "time_precision": "day",
+          "why": "中金将在披露相关申报结果公告当日复牌；东兴、信达将停牌直至终止上市。实际安排以各公司后续公告为准。临近停牌时，持有期限可能超出原定的1—5个交易日。",
+          "source_ids": [
+            "cicc-detail",
+            "cicc-news"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "id": "ashare-close",
+          "title": "59只A股筹码大换手（9月7日）",
+          "url": "https://www.stcn.com/article/detail/4174980.html",
+          "publisher": "证券时报·数据宝",
+          "source_type": "data",
+          "published_at": "2026-09-07T17:44:00+08:00",
+          "published_date": "2026-09-07",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "原文注明发布时间。",
+          "reference_only": false
+        },
+        {
+          "id": "compute-plan",
+          "title": "工信部：加快全国一体化算力网建设，有序部署万卡、十万卡及以上智算集群",
+          "url": "https://www.stcn.com/article/detail/4174831.html",
+          "publisher": "人民财讯",
+          "source_type": "media",
+          "published_at": "2026-09-07T15:38:00+08:00",
+          "published_date": "2026-09-07",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "原文注明发布时间。",
+          "reference_only": false
+        },
+        {
+          "id": "cicc-news",
+          "title": "中金公司：换股吸并东兴证券、信达证券等事项获批",
+          "url": "https://www.stcn.com/article/detail/4175551.html",
+          "publisher": "人民财讯",
+          "source_type": "media",
+          "published_at": "2026-09-07T20:22:00+08:00",
+          "published_date": "2026-09-07",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "原文注明发布时间。",
+          "reference_only": false
+        },
+        {
+          "id": "cicc-detail",
+          "title": "3家A股券商，9月15日起停牌！中金公司重组获批",
+          "url": "https://www.stcn.com/article/detail/4175689.html",
+          "publisher": "证券时报",
+          "source_type": "media",
+          "published_at": "2026-09-07T22:59:00+08:00",
+          "published_date": "2026-09-07",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "原文注明发布时间。",
+          "reference_only": false
+        },
+        {
+          "id": "cicc-announcement",
+          "title": "中金公司关于吸收合并等事项获得证监会同意注册及核准批复的公告",
+          "url": "https://paper.cnstock.com/html/2026-09/08/content_2265977.htm",
+          "publisher": "中金公司／上海证券报公告版",
+          "source_type": "company",
+          "published_at": null,
+          "published_date": "2026-09-08",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "报纸页面仅注明日期；用于核对公告内容，消息的盘前可见性由9月7日20:22报道确认。",
+          "reference_only": true
+        },
+        {
+          "id": "abnormal-news",
+          "title": "9月7日上市公司股票异常波动一览",
+          "url": "https://finance.sina.com.cn/stock/zqgd/2026-09-07/doc-iniqzhfs6343183.shtml",
+          "publisher": "财中社／新浪财经",
+          "source_type": "media",
+          "published_at": "2026-09-07T20:46:00+08:00",
+          "published_date": "2026-09-07",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "原文注明发布时间。",
+          "reference_only": false
+        },
+        {
+          "id": "kinwong-announcement",
+          "title": "景旺电子股票交易异常波动公告（2026-067）",
+          "url": "https://big5.sse.com.cn/site/cht/www.sse.com.cn/disclosure/listedinfo/announcement/c/new/2026-09-08/603228_20260908_HRGB.pdf",
+          "publisher": "景旺电子／上交所",
+          "source_type": "company",
+          "published_at": null,
+          "published_date": "2026-09-08",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "公告文件日期为9月8日；9月7日20:46报道已确认该异动公告。原文件作为补充核对依据。",
+          "reference_only": true
+        },
+        {
+          "id": "nyse-calendar",
+          "title": "NYSE Holidays & Trading Hours",
+          "url": "https://www.nyse.com/trade/hours-calendars",
+          "publisher": "纽约证券交易所",
+          "source_type": "official",
+          "published_at": null,
+          "published_date": null,
+          "time_precision": "unknown",
+          "retrieved_at": "2026-09-08T11:28:24+08:00",
+          "timing_note": "年度日历列明2026年9月7日劳动节休市。未取得当日08:20历史网页快照；静态日历核对用。",
+          "reference_only": true
+        }
+      ]
+    },
     {
       "id": "premarket-2026-09-04",
       "type": "premarket",
@@ -105,5 +378,8 @@
         }
       ]
     }
-  ]
+  ],
+  "schema_version": "2.0",
+  "timezone": "Asia/Shanghai",
+  "latest_premarket_id": "premarket-2026-09-08"
 }
