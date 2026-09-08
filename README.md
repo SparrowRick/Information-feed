@@ -8,6 +8,8 @@
 
 [feed.json 原始数据](https://raw.githubusercontent.com/SparrowRick/Information-feed/main/feed.json)
 
+收盘复盘是另一条链路：交易日 17:00 由 Grok bot 触发 Grok Build，生成 [review-feed.json](https://raw.githubusercontent.com/SparrowRick/Information-feed/main/review-feed.json)。盘前任务不负责复盘。见 [docs/REVIEW.md](docs/REVIEW.md)、[docs/GROK-BOT.md](docs/GROK-BOT.md)。
+
 ## 运行方式
 
 ChatGPT Work 定时任务在北京时间 **08:00** 启动，核实 A 股交易日，检索并生成内容，目标 **08:30前** 上传 GitHub。实际截稿时间是完成采集的时刻，最晚08:20；不保证整点到达。09:00后不再冒充当日实时盘前发布。周末、交易所休市日跳过，调休上班的周末也跳过。新闻源或GitHub失败时保留上一期并报告错误。

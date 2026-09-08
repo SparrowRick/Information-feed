@@ -43,10 +43,12 @@ Base：`https://fuyao.aicubes.cn`
 | 涨停池 | `GET /api/a-share/special-data/limit-up-pool` |
 | 跌停池 | `GET /api/a-share/special-data/limit-down-pool` |
 | 炸板池 | `GET /api/a-share/special-data/limit-break-pool` |
-| 连板天梯 | `GET /api/a-share/special-data/limit-up-ladder` |
+| 连板天梯 | `GET /api/a-share/special-data/limit-up-ladder`（已接 client，报告以涨停池计算高度为主） |
+| 龙虎榜 | `GET /api/a-share/special-data/dragon-tiger-list`（席位净额，不是主力净流入） |
 | 异动原因 | `GET /api/a-share/special-data/anomaly-analysis-list` |
 | 全市场快照 | `GET /api/a-share/prices/snapshot`（分页；无历史日期，仅最新交易日可用） |
 | 指数快照 / 历史 | `/api/a-share-index/prices/snapshot`、`/historical` |
+| 同花顺板块目录 / 成分 | `/api/a-share-index/catalog/ths-index-list`、`/constituents/ths-stock-list` |
 
 调用间隔 1–2 秒；遇到 HTTP/业务 429 指数退避重试。
 
@@ -61,10 +63,11 @@ Base：`https://fuyao.aicubes.cn`
 3. `open_times >= 3`（字段来自炸板池或池内字段，有则用）。
 4. `turnover_ratio_pct >= 30`（有则用）。
 5. 连板天数 ≥ 5 且快照成交额 ≥ 20 亿（涨停池没有换手率时的保守代理，对应「高换手水分高度」）。
+6. 封单/成交额 < 1% 且（开板次数 ≥ 3 或连板 ≥ 5）→ 伪强势，不计入真实高度。
 
-涨停池通常不含 `open_times` / `turnover_ratio_pct`；这两项「有则用」。因此多数交易日真实高度主要剔除 ST / 新股，再叠加高位高成交额启发式。样例逻辑：深中华 A 一类名义高位因多次开板 / 高换手不计入真实高度。
+涨停池通常不含 `open_times` / `turnover_ratio_pct`；开板次数来自炸板池，成交额来自快照，封单比「有则用」。样例逻辑：深中华 A 一类名义高位因多次开板 / 高换手 / 封单占比过低不计入真实高度。
 
-封板率 = 涨停家数 / (涨停 + 炸板) × 100。
+封板率 = 非 ST 涨停 / (非 ST 涨停 + 非 ST 炸板) × 100。炸板率 = 1 − 封板率（同一口径）。晋级率 = 昨日非 ST 涨停中今日连板天数增加的比例。
 
 ## 主线 / 题材 MVP
 
@@ -80,14 +83,30 @@ Base：`https://fuyao.aicubes.cn`
 ## Markdown 结构
 
 1. 标题 + 一句话总览 + 核心矛盾
-2. 盘面开关（指数、成交额、涨跌家数、涨停/炸板/跌停、封板率、名义/真实高度）
-3. 昨主线今日结账
-4. 连板生死簿（名义 vs 真实、低位强首板）
-5. 行业/概念切换
-6. 风险警示
-7. 次日 2–3 个互斥情形
-8. 数据审计
+2. 盘面全貌（五指数、非 ST 涨停/炸板/跌停、封板率、晋级率、名义/真实高度）
+3. 从上次放量日到今日
+4. 核心指数、成交与情绪
+5. 昨主线与重点观察结账
+6. 当日最大增量分支
+7. 连板生死簿与高低结构
+8. 行业/概念与相对配置（价量；无主力净流入则不编）
+9. 产业线深拆（资格线，0–2 条，不硬凑）
+10. 最大轮动与被证伪方向
+11. 其他涨停原因暗线
+12. 风险警示
+
+盘前预判结账暂不生成，等盘前 feed 稳定后再接。次日互斥情形与数据审计章节不写入正文；缺口记在 JSON `audit.gaps`。
+
+产业线选择：
+
+- **次主线候选**：昨日结账不是「证伪」的最强昨主线，且今日仍有涨停接力或成员未全面转负。
+- **新方向候选**：当日最大增量分支，且热度上升并有原因匹配首板（或热度增量 ≥ 2）。
+- 两者同名则合并为一条。事件标签（中报增长等）不能成为产业线。
 
 ## 非交易日
 
 不生成假复盘。指定日不是交易日时打印说明并回退上一交易日；若无法回退则 exit 0。
+
+## Grok bot
+
+每个交易日 17:00（Asia/Shanghai）由 Grok bot **只负责叫醒 Grok Build**。Grok Build 按 [REVIEW-JOB.md](REVIEW-JOB.md) 跑本管线并提交。盘前 feed 不在此任务内。说明见 [GROK-BOT.md](GROK-BOT.md)。

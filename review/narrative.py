@@ -94,9 +94,12 @@ def build_summary(
         ) else "走弱"
         mood.append("、".join(theme_fail[:2]) + fail_status)
     mood_txt = "，".join(mood) if mood else "主线尚未完全收敛"
+    lu = core.get("non_st_limit_up") if core.get("non_st_limit_up") is not None else core.get("limit_up", 0)
+    lb = core.get("non_st_limit_break") if core.get("non_st_limit_break") is not None else core.get("limit_break", 0)
+    ld = core.get("non_st_limit_down") if core.get("non_st_limit_down") is not None else core.get("limit_down", 0)
     return (
-        f"{date} {idx}；{to_bit}；涨停{core.get('limit_up', 0)}、炸板{core.get('limit_break', 0)}、"
-        f"跌停{core.get('limit_down', 0)}，封板率{core.get('seal_rate', 0):.1f}%；"
+        f"{date} {idx}；{to_bit}；非ST涨停{lu}、炸板{lb}、"
+        f"跌停{ld}，封板率{core.get('seal_rate', 0):.1f}%；"
         f"连板{height}；盘面以{lead}为前排，{mood_txt}。"
     )
 
@@ -179,10 +182,18 @@ def build_market_switches(
         elif up > down * 1.2:
             bit += "（涨多跌少）"
         switches.append(bit)
-    lu, lb, ld = core.get("limit_up") or 0, core.get("limit_break") or 0, core.get("limit_down") or 0
+    lu = core.get("non_st_limit_up") or core.get("limit_up") or 0
+    lb = core.get("non_st_limit_break") or core.get("limit_break") or 0
+    ld = core.get("non_st_limit_down") or core.get("limit_down") or 0
     switches.append(
-        f"涨停{lu} / 炸板{lb} / 跌停{ld}，封板率{core.get('seal_rate', 0):.1f}%"
+        f"非ST涨停{lu} / 炸板{lb} / 跌停{ld}，封板率{core.get('seal_rate', 0):.1f}%，"
+        f"炸板率{core.get('break_rate', 0):.1f}%"
     )
+    if core.get("promotion_rate") is not None:
+        switches.append(
+            f"晋级率{core.get('promotion_rate', 0):.1f}%"
+            f"（{core.get('promotion_count', 0)}/{core.get('promotion_eligible', 0)}）"
+        )
     nh, th = core.get("nominal_height") or 0, core.get("true_height") or 0
     ynh, yth = prev.get("nominal_height") or 0, prev.get("true_height") or 0
     height = f"名义连板高度{nh}板，真实高度{th}板"
@@ -284,7 +295,7 @@ def _md_theme_table(rows: list[dict[str, Any]]) -> str:
     if not rows:
         return "昨日主线样本不足，无法结账。"
     lines = [
-        "| 主线 | 状态 | 涨跌 | 备注 |",
+        "| 昨日方向 | 状态 | 涨跌 | 转接关系 |",
         "| --- | --- | ---: | --- |",
     ]
     for row in rows:
@@ -298,12 +309,19 @@ def _md_sector_table(rows: list[dict[str, Any]]) -> str:
     if not rows:
         return "今日涨停原因尚未形成稳定概念簇。"
     lines = [
-        "| 方向 | 热度 | 涨跌 | 状态 | 备注 |",
-        "| --- | ---: | ---: | --- | --- |",
+        "| 方向 | 今日价格 | 容量变化 | 热度 | 状态 | 结构 |",
+        "| --- | ---: | ---: | ---: | --- | --- |",
     ]
     for row in rows:
+        price = row.get("index_change_pct")
+        if price is None:
+            price = row.get("change_pct")
+        vol = row.get("volume_ratio")
+        vol_txt = f"{vol:.2f}倍" if vol else "—"
+        extra = row.get("index_name") or row.get("note") or ""
         lines.append(
-            f"| {row.get('name','')} | {row.get('heat',0):.0f} | {fmt_pct(row.get('change_pct'))} | {row.get('status','')} | {row.get('note','')} |"
+            f"| {row.get('name','')} | {fmt_pct(price)} | {vol_txt} | "
+            f"{row.get('heat',0):.0f} | {row.get('status','')} | {extra} |"
         )
     return "\n".join(lines)
 
@@ -319,6 +337,178 @@ def _md_ladder(title: str, rows: list[dict[str, Any]]) -> str:
     return f"- {title}：" + "；".join(bits)
 
 
+def _fmt_opt_pct(value: Any, suffix: str = "%") -> str:
+    if value is None or value == "":
+        return "—"
+    try:
+        return f"{float(value):.1f}{suffix}"
+    except (TypeError, ValueError):
+        return "—"
+
+
+def _md_core_table(today: dict[str, Any], yesterday: dict[str, Any]) -> str:
+    def cell(key: str, fmt: str = "num") -> tuple[str, str]:
+        a, b = today.get(key), yesterday.get(key)
+        if fmt == "pct":
+            return fmt_pct(b), fmt_pct(a)
+        if fmt == "yi":
+            return fmt_yi(b), fmt_yi(a)
+        if fmt == "rate":
+            return f"{float(b or 0):.1f}%", f"{float(a or 0):.1f}%"
+        if a is None:
+            a = "—"
+        if b is None:
+            b = "—"
+        return str(b), str(a)
+
+    rows = [
+        ("五个核心指数平均涨跌幅", "index_avg_pct", "pct"),
+        ("全市场成交额", "turnover", "yi"),
+        ("上涨 / 下跌家数", "breadth", "breadth"),
+        ("非ST涨停 / 炸板", "ns_up_break", "pair"),
+        ("炸板率", "break_rate", "rate"),
+        ("晋级率", "promotion_rate", "rate"),
+        ("系统高度 / 真实高度", "height", "height"),
+        ("非ST跌停", "non_st_limit_down", "num"),
+    ]
+    lines = [
+        "| 指标 | 上一交易日 | 今日 |",
+        "| --- | ---: | ---: |",
+    ]
+    for label, key, fmt in rows:
+        if key == "breadth":
+            y = f"{yesterday.get('up') or '—'}/{yesterday.get('down') or '—'}"
+            t = f"{today.get('up') or '—'}/{today.get('down') or '—'}"
+            lines.append(f"| {label} | {y} | {t} |")
+            continue
+        if key == "ns_up_break":
+            y = f"{yesterday.get('non_st_limit_up') or yesterday.get('limit_up') or 0} / {yesterday.get('non_st_limit_break') or yesterday.get('limit_break') or 0}"
+            t = f"{today.get('non_st_limit_up') or today.get('limit_up') or 0} / {today.get('non_st_limit_break') or today.get('limit_break') or 0}"
+            lines.append(f"| {label} | {y} | {t} |")
+            continue
+        if key == "height":
+            y = f"{yesterday.get('nominal_height') or 0} / {yesterday.get('true_height') or 0}"
+            t = f"{today.get('nominal_height') or 0} / {today.get('true_height') or 0}"
+            lines.append(f"| {label} | {y} | {t} |")
+            continue
+        yv, tv = cell(key, fmt)
+        lines.append(f"| {label} | {yv} | {tv} |")
+    return "\n".join(lines)
+
+
+def _md_volume_day(volume_day: dict[str, Any] | None, today_core: dict[str, Any]) -> str:
+    if not volume_day:
+        return "成交额序列不足，无法定位放量日。"
+    exp = volume_day.get("expansion")
+    lines = [
+        "| 交易日 | 全市场成交额 | 环比 | 说明 |",
+        "| --- | ---: | ---: | --- |",
+    ]
+    if exp:
+        lines.append(
+            f"| {exp.get('date')} | {fmt_yi(exp.get('turnover'))} | "
+            f"{fmt_pct(exp.get('change_pct'), 1)} | 最近放量日 |"
+        )
+        if exp.get("date") != volume_day.get("today_date"):
+            rel = volume_day.get("today_vs_prev_pct")
+            lines.append(
+                f"| {volume_day.get('today_date')} | {fmt_yi(volume_day.get('today_turnover') or today_core.get('turnover'))} | "
+                f"{fmt_pct(rel, 1) if rel is not None else '—'} | 本复盘日 |"
+            )
+    else:
+        lines.append(
+            f"| {volume_day.get('today_date')} | {fmt_yi(volume_day.get('today_turnover') or today_core.get('turnover'))} | "
+            f"{fmt_pct(volume_day.get('today_vs_prev_pct'), 1) if volume_day.get('today_vs_prev_pct') is not None else '—'} | 观察窗口内无放量日 |"
+        )
+    return "\n".join(lines)
+
+
+def _md_incremental(branch: dict[str, Any] | None) -> str:
+    if not branch:
+        return "当日没有满足热度增量或首板扩散门槛的非事件分支。"
+    lines = [
+        f"{branch.get('name')}：{branch.get('note') or ''}",
+        "",
+    ]
+    stocks = branch.get("stocks") or []
+    if stocks:
+        lines += [
+            "| 代表标的 | 原因标签 | 板位 | 成交额 | 换手 | 开板 | 封单/成交额 |",
+            "| --- | --- | --- | ---: | ---: | ---: | ---: |",
+        ]
+        for row in stocks:
+            lines.append(
+                f"| {row.get('name','')} | {row.get('reason','')} | "
+                f"{'首板' if (row.get('board') or 1) == 1 else str(row.get('board'))+'板'} | "
+                f"{fmt_yi(row.get('turnover'))} | {_fmt_opt_pct(row.get('turnover_ratio_pct'))} | "
+                f"{row.get('open_times') if row.get('open_times') is not None else '—'} | "
+                f"{_fmt_opt_pct(row.get('seal_ratio_pct'))} |"
+            )
+    return "\n".join(lines)
+
+
+def _md_structure(rows: list[dict[str, Any]]) -> str:
+    if not rows:
+        return "高低结构样本不足。"
+    lines = [
+        "| 位置 | 标的 | 板位 | 成交额 | 换手 | 开板 | 封单/成交额 | 归因 |",
+        "| --- | --- | --- | ---: | ---: | ---: | ---: | --- |",
+    ]
+    for row in rows:
+        lines.append(
+            f"| {row.get('position','')} | {row.get('name','')} | {row.get('board','')} | "
+            f"{fmt_yi(row.get('turnover'))} | {_fmt_opt_pct(row.get('turnover_ratio_pct'))} | "
+            f"{row.get('open_times') if row.get('open_times') is not None else '—'} | "
+            f"{_fmt_opt_pct(row.get('seal_ratio_pct'))} | {row.get('reason','')} |"
+        )
+    return "\n".join(lines)
+
+
+def _md_industry_lines(lines_data: list[dict[str, Any]]) -> str:
+    if not lines_data:
+        return (
+            "今日没有方向同时满足资格线条件，故不深拆。"
+            "选择规则：次主线候选=昨日未证伪且今日仍有接力的最强昨主线；"
+            "新方向候选=当日最大增量分支且热度上升并有首板扩散。同名合并，不硬凑条数。"
+        )
+    chunks = [
+        "选择规则：次主线候选来自昨日未证伪的最强主线；"
+        "新方向候选来自当日最大增量分支（需热度上升且原因匹配首板）。"
+        "够格才列，不硬凑两条。",
+        "",
+        "| 产业线 | 资格 | 身位 | 容量锚 | 首板扩散 | 最短证伪条件 |",
+        "| --- | --- | --- | --- | --- | --- |",
+    ]
+    for row in lines_data:
+        height = "、".join(row.get("height_names") or []) or "无真实高度成员"
+        anchors = "、".join(row.get("capacity_anchors") or []) or "—"
+        firsts = "、".join(row.get("first_boards") or []) or "无原因匹配首板"
+        chunks.append(
+            f"| {row.get('name','')} | {row.get('role','')} | {height} | "
+            f"{anchors} | {firsts} | {row.get('falsify','')} |"
+        )
+        if row.get("selection_reason"):
+            chunks.append("")
+            chunks.append(f"- {row.get('name')}：{row.get('selection_reason')}")
+    return "\n".join(chunks)
+
+
+def _md_broken(rows: list[dict[str, Any]]) -> str:
+    if not rows:
+        return "昨日高位连板今日均仍在涨停池，或没有可对照样本。"
+    lines = [
+        "| 昨日高标 | 昨板位 | 今日涨跌 | 原因 |",
+        "| --- | ---: | ---: | --- |",
+    ]
+    for row in rows:
+        chg = row.get("change_pct")
+        chg_txt = fmt_pct(chg) if chg is not None else "—"
+        lines.append(
+            f"| {row.get('name','')} | {row.get('board','')} | {chg_txt} | {row.get('reason','')} |"
+        )
+    return "\n".join(lines)
+
+
 def render_markdown(item: dict[str, Any], *, index_items: list[dict[str, Any]]) -> str:
     date = item["date"]
     core = item["core_metrics"]["today"]
@@ -330,63 +520,112 @@ def render_markdown(item: dict[str, Any], *, index_items: list[dict[str, Any]]) 
         "",
         f"**核心矛盾：** {item.get('core_conflict') or ''}",
         "",
-        "## 一、盘面开关",
+        "## 一、盘面全貌",
         "",
     ]
     for sw in item.get("market_switches") or []:
         lines.append(f"- {sw}")
     if not item.get("market_switches"):
-        lines.append("- 盘面开关数据不足")
+        lines.append("- 盘面数据不足")
     lines += [
         "",
-        "## 二、昨主线今日结账",
+        "## 二、从上次放量日到今日",
+        "",
+        _md_volume_day(item.get("volume_day"), core),
+        "",
+        "## 三、核心指数、成交与情绪",
+        "",
+        _md_core_table(core, prev),
+        "",
+        "## 四、昨主线与重点观察结账",
         "",
         _md_theme_table(item.get("yesterday_themes") or []),
         "",
-        "## 三、连板生死簿",
+        "## 五、当日最大增量分支",
+        "",
+        _md_incremental(item.get("incremental_branch")),
+        "",
+        "## 六、连板生死簿与高低结构",
         "",
     ]
     ladder = item.get("ladder") or {}
     lines.append(_md_ladder("名义高度代表", ladder.get("nominal") or []))
     lines.append(_md_ladder("真实高度代表", ladder.get("true") or []))
-    firsts = ladder.get("strong_first_boards") or []
-    if firsts:
-        bits = []
-        for row in firsts:
-            reason = row.get("reason") or ""
-            extra = f"（{reason}）" if reason else ""
-            bits.append(f"{row.get('name')}{extra}")
-        lines.append("- 低位强首板：" + "；".join(bits))
-    else:
-        lines.append("- 低位强首板：暂无足够封单样本")
+    lines.append("")
+    lines.append(_md_structure(item.get("structure_rows") or []))
+    broken = item.get("broken_high_boards") or []
+    if broken:
+        lines += ["", "昨日高标断板：", "", _md_broken(broken)]
     lines += [
         "",
-        "## 四、行业 / 概念切换",
+        "## 七、行业、概念与相对配置",
+        "",
+        "板块涨跌与成交额来自同花顺概念/行业指数（能匹配才填）。"
+        "没有主力净流入，下表是价量而不是资金强度。",
         "",
         _md_sector_table(item.get("sector_rotation") or []),
         "",
-        "## 五、风险警示",
+    ]
+    dt = item.get("dragon_tiger") or {}
+    if dt.get("stocks"):
+        lines += [
+            "龙虎榜席位净额（不是全市场主力净流入）：",
+            "",
+            "| 标的 | 净额 | 机构净额 | 游资净额 | 涨跌 |",
+            "| --- | ---: | ---: | ---: | ---: |",
+        ]
+        for row in dt.get("stocks") or []:
+            lines.append(
+                f"| {row.get('name','')} | {fmt_yi(row.get('net_value'))} | "
+                f"{fmt_yi(row.get('org_net_value'))} | {fmt_yi(row.get('hot_money_net_value'))} | "
+                f"{fmt_pct(row.get('change_pct'))} |"
+            )
+        lines.append("")
+    lines += [
+        "## 八、产业线深拆",
+        "",
+        _md_industry_lines(item.get("industry_lines") or []),
+        "",
+        "## 九、最大轮动与被证伪方向",
         "",
     ]
+    rot = item.get("rotation") or {}
+    falsified = rot.get("falsified") or []
+    if falsified:
+        lines.append(
+            "被证伪："
+            + "；".join(
+                f"{x.get('name')}（{x.get('note') or x.get('status')}）" for x in falsified
+            )
+        )
+        lines.append("")
+    if rot.get("rotation"):
+        r = rot["rotation"]
+        lines.append(
+            f"最大并行轮动：{r.get('name')} 热度{r.get('heat')}，"
+            f"{fmt_pct(r.get('change_pct'))}。{r.get('note') or ''}"
+        )
+    elif not falsified:
+        lines.append("没有单独列出的并行轮动或证伪方向。")
+    lines += [
+        "",
+        "## 十、其他涨停原因暗线",
+        "",
+    ]
+    events = item.get("event_themes") or []
+    if events:
+        bits = [
+            f"{e.get('name')} {e.get('count')}只"
+            for e in events
+        ]
+        lines.append("事件标签（不升格为主线）：" + "；".join(bits) + "。")
+    else:
+        lines.append("当日涨停原因里没有形成独立的事件标签暗线。")
+    lines += ["", "## 十一、风险警示", ""]
     for risk in item.get("risks") or []:
         lines.append(f"- {risk}")
-    lines += ["", "## 六、次日互斥情形", ""]
-    for sc in item.get("next_day_scenarios") or []:
-        lines.append(f"**{sc.get('name')}**")
-        lines.append(f"- 条件：{sc.get('condition')}")
-        lines.append(f"- 动作：{sc.get('action')}")
-        lines.append("")
-    audit = item.get("audit") or {}
-    lines += [
-        "## 数据审计",
-        "",
-        f"- 交易日：{date}（Asia/Shanghai）",
-        f"- 数据截止：{item.get('cutoff_at') or audit.get('data_as_of') or ''}",
-        f"- 生成时间：{item.get('generated_at') or audit.get('generated_at') or ''}",
-        f"- 来源：{', '.join(audit.get('sources') or ['HiThink Financial-API'])}",
-        f"- 涨停{core.get('limit_up',0)} / 炸板{core.get('limit_break',0)} / 跌停{core.get('limit_down',0)}；"
-        f"昨涨停{prev.get('limit_up',0)} / 炸板{prev.get('limit_break',0)} / 跌停{prev.get('limit_down',0)}",
-        "",
-    ]
-    _ = index_items
+    if not item.get("risks"):
+        lines.append("- 若次日高开低走且连板晋级失败，短线情绪可能快速降温。")
+    lines.append("")
+    _ = (index_items, date)
     return "\n".join(lines).rstrip() + "\n"

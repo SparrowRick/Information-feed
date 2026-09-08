@@ -73,7 +73,7 @@ def publish(
     feed_path = out_dir / "review-feed.json"
     date = item["date"]
     archive_path = out_dir / "archive" / "review" / f"{date}.json"
-    sample_path = out_dir / "samples" / f"{date}.md"
+    sample_path = out_dir / "samples" / "review" / f"{date}.md"
     paths = {"feed": feed_path, "archive": archive_path, "sample": sample_path}
     if dry_run:
         return paths

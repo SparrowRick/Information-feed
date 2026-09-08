@@ -43,8 +43,16 @@
         "limit_down": { "type": "integer" },
         "limit_break": { "type": "integer" },
         "seal_rate": { "type": "number", "description": "封板率，0-100" },
+        "break_rate": { "type": "number", "description": "炸板率，0-100，非ST口径" },
         "nominal_height": { "type": "integer" },
-        "true_height": { "type": "integer" }
+        "true_height": { "type": "integer" },
+        "non_st_limit_up": { "type": "integer" },
+        "non_st_limit_down": { "type": "integer" },
+        "non_st_limit_break": { "type": "integer" },
+        "promotion_rate": { "type": "number" },
+        "promotion_eligible": { "type": "integer" },
+        "promotion_count": { "type": "integer" },
+        "index_avg_pct": { "type": "number" }
       }
     },
     "themeRow": {
@@ -109,7 +117,6 @@
         "ladder",
         "sector_rotation",
         "risks",
-        "next_day_scenarios",
         "markdown",
         "audit"
       ],
@@ -160,12 +167,13 @@
           "items": { "$ref": "#/$defs/sectorRow" }
         },
         "risks": { "type": "array", "items": { "type": "string" } },
-        "next_day_scenarios": {
-          "type": "array",
-          "minItems": 2,
-          "maxItems": 3,
-          "items": { "$ref": "#/$defs/scenario" }
-        },
+        "volume_day": { "type": ["object", "null"] },
+        "incremental_branch": { "type": ["object", "null"] },
+        "industry_lines": { "type": "array" },
+        "event_themes": { "type": "array" },
+        "structure_rows": { "type": "array" },
+        "broken_high_boards": { "type": "array" },
+        "dragon_tiger": { "type": ["object", "null"] },
         "markdown": { "type": "string" },
         "audit": {
           "type": "object",
@@ -173,7 +181,8 @@
           "properties": {
             "sources": { "type": "array", "items": { "type": "string" } },
             "generated_at": { "type": "string" },
-            "data_as_of": { "type": "string" }
+            "data_as_of": { "type": "string" },
+            "gaps": { "type": "array", "items": { "type": "string" } }
           },
           "additionalProperties": true
         }

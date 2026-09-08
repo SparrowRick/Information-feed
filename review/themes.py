@@ -6,7 +6,8 @@ import re
 from collections import defaultdict
 from typing import Any
 
-from review.metrics import _num, board_count, is_st_stock
+from review.metrics import _num, board_count, code_key, is_st_stock
+from review.sectors import is_event_token
 
 _SPLIT = re.compile(r"[+＋、,，/|；;]")
 _SKIP_TOKENS = {
@@ -310,6 +311,10 @@ def strong_first_boards(pool: list[dict[str, Any]], limit: int = 6) -> list[dict
                 "reason": str(item.get("limit_up_reason") or ""),
                 "seal_money": _num(item.get("seal_money")),
                 "limit_up_time": str(item.get("limit_up_time") or ""),
+                "turnover": _num(item.get("turnover")),
+                "turnover_ratio_pct": item.get("turnover_ratio_pct"),
+                "open_times": item.get("open_times") or 0,
+                "seal_ratio_pct": item.get("seal_ratio_pct"),
             }
         )
     return out
@@ -325,6 +330,294 @@ def ladder_entries(
                 "name": str(item.get("name") or ""),
                 "board": board_count(item),
                 "reason": str(item.get("limit_up_reason") or item.get("continue_day_text") or ""),
+                "open_times": item.get("open_times"),
+                "turnover": _num(item.get("turnover")),
+                "turnover_ratio_pct": item.get("turnover_ratio_pct"),
+                "seal_ratio_pct": item.get("seal_ratio_pct"),
             }
         )
     return rows
+
+
+def _first_board_members(
+    pool: list[dict[str, Any]], token: str
+) -> list[dict[str, Any]]:
+    rows = []
+    for item in pool:
+        if is_st_stock(item) or board_count(item) != 1:
+            continue
+        if token not in split_reason(item.get("limit_up_reason")):
+            continue
+        rows.append(item)
+    return rows
+
+
+def incremental_branch(
+    today_clusters: list[dict[str, Any]],
+    yesterday_clusters: list[dict[str, Any]],
+    today_pool: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    """当日最大增量分支：非事件标签里，热度增量最大的簇。"""
+    y_by = {c["name"]: c for c in yesterday_clusters}
+    best: dict[str, Any] | None = None
+    best_key: tuple[float, int, float] | None = None
+    for cluster in today_clusters:
+        name = str(cluster.get("name") or "")
+        if is_event_token(name):
+            continue
+        y_heat = float((y_by.get(name) or {}).get("heat") or 0)
+        delta = float(cluster.get("heat") or 0) - y_heat
+        firsts = _first_board_members(today_pool, name)
+        key = (delta, len(firsts), float(cluster.get("heat") or 0))
+        if best_key is None or key > best_key:
+            best_key = key
+            best = {
+                "name": name,
+                "heat": cluster.get("heat"),
+                "yesterday_heat": y_heat,
+                "delta_heat": round(delta, 2),
+                "count": cluster.get("count") or 0,
+                "first_board_count": len(firsts),
+                "change_pct": cluster.get("change_pct"),
+                "stocks": [
+                    {
+                        "name": str(x.get("name") or ""),
+                        "board": board_count(x),
+                        "reason": str(x.get("limit_up_reason") or ""),
+                        "turnover": _num(x.get("turnover")),
+                        "turnover_ratio_pct": x.get("turnover_ratio_pct"),
+                        "open_times": x.get("open_times") or 0,
+                        "seal_ratio_pct": x.get("seal_ratio_pct"),
+                    }
+                    for x in firsts[:6]
+                ],
+                "note": (
+                    f"昨热度{y_heat:.0f} → 今{float(cluster.get('heat') or 0):.0f}，"
+                    f"原因匹配首板{len(firsts)}只"
+                ),
+            }
+    if not best or best_key is None:
+        return None
+    delta, first_n, _heat = best_key
+    if delta <= 0 and first_n < 2:
+        return None
+    return best
+
+
+def broken_high_boards(
+    yesterday_pool: list[dict[str, Any]],
+    today_pool: list[dict[str, Any]],
+    snapshot: list[dict[str, Any]] | None = None,
+    *,
+    min_board: int = 2,
+) -> list[dict[str, Any]]:
+    today_codes = {code_key(x) for x in today_pool if code_key(x)}
+    snap_by: dict[str, dict[str, Any]] = {}
+    for row in snapshot or []:
+        for key in (row.get("thscode"), row.get("ticker")):
+            if key:
+                snap_by[str(key)] = row
+    rows: list[dict[str, Any]] = []
+    for item in yesterday_pool:
+        if is_st_stock(item) or board_count(item) < min_board:
+            continue
+        key = code_key(item)
+        if key and key in today_codes:
+            continue
+        snap = snap_by.get(key) if key else None
+        chg = None
+        if snap and snap.get("price_change_ratio_pct") is not None:
+            chg = round(_num(snap.get("price_change_ratio_pct")), 3)
+        rows.append(
+            {
+                "name": str(item.get("name") or ""),
+                "board": board_count(item),
+                "change_pct": chg,
+                "reason": str(item.get("limit_up_reason") or ""),
+            }
+        )
+    rows.sort(key=lambda x: x.get("board") or 0, reverse=True)
+    return rows[:6]
+
+
+def structure_rows(
+    *,
+    first_boards: list[dict[str, Any]],
+    nominal: list[dict[str, Any]],
+    true_leaders: list[dict[str, Any]],
+    crowded: list[dict[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """低位强封 vs 高位拥挤，供生死簿表。"""
+    rows: list[dict[str, Any]] = []
+    for item in first_boards[:4]:
+        rows.append(
+            {
+                "position": "低位强封",
+                "name": str(item.get("name") or ""),
+                "board": 1,
+                "turnover": _num(item.get("turnover") or item.get("seal_money")),
+                "turnover_ratio_pct": item.get("turnover_ratio_pct"),
+                "open_times": item.get("open_times") or 0,
+                "seal_ratio_pct": item.get("seal_ratio_pct"),
+                "reason": str(item.get("reason") or item.get("limit_up_reason") or ""),
+            }
+        )
+    high = crowded or nominal
+    seen = {r["name"] for r in rows}
+    for item in high[:4]:
+        name = str(item.get("name") or "")
+        if name in seen:
+            continue
+        rows.append(
+            {
+                "position": "高位拥挤",
+                "name": name,
+                "board": item.get("board") or board_count(item),
+                "turnover": _num(item.get("turnover")),
+                "turnover_ratio_pct": item.get("turnover_ratio_pct"),
+                "open_times": item.get("open_times") or 0,
+                "seal_ratio_pct": item.get("seal_ratio_pct"),
+                "reason": str(item.get("reason") or item.get("limit_up_reason") or ""),
+            }
+        )
+        seen.add(name)
+    _ = true_leaders
+    return rows
+
+
+def event_theme_rows(
+    today_clusters: list[dict[str, Any]], limit: int = 6
+) -> list[dict[str, Any]]:
+    rows = []
+    for cluster in today_clusters:
+        if not is_event_token(str(cluster.get("name") or "")):
+            continue
+        rows.append(
+            {
+                "name": cluster["name"],
+                "heat": cluster.get("heat"),
+                "count": cluster.get("count") or 0,
+                "change_pct": cluster.get("change_pct"),
+                "stocks": (cluster.get("stocks") or [])[:4],
+            }
+        )
+        if len(rows) >= limit:
+            break
+    return rows
+
+
+def falsified_and_rotation(
+    yesterday_themes: list[dict[str, Any]],
+    today_clusters: list[dict[str, Any]],
+    industry_names: set[str],
+) -> dict[str, Any]:
+    falsified = [t for t in yesterday_themes if t.get("status") == "证伪"]
+    faded = [t for t in yesterday_themes if t.get("status") in {"证伪", "走弱"}]
+    rotation = None
+    for cluster in today_clusters:
+        name = str(cluster.get("name") or "")
+        if is_event_token(name) or name in industry_names:
+            continue
+        rotation = {
+            "name": name,
+            "heat": cluster.get("heat"),
+            "change_pct": cluster.get("change_pct"),
+            "count": cluster.get("count") or 0,
+            "stocks": (cluster.get("stocks") or [])[:4],
+            "note": "未进入资格线，只作并行轮动",
+        }
+        break
+    return {"falsified": falsified, "faded": faded, "rotation": rotation}
+
+
+def select_industry_lines(
+    *,
+    yesterday_themes: list[dict[str, Any]],
+    yesterday_clusters: list[dict[str, Any]],
+    today_clusters: list[dict[str, Any]],
+    incremental: dict[str, Any] | None,
+    today_pool: list[dict[str, Any]],
+    true_leaders: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """资格线深拆：0–2 条，不硬凑。
+
+    次主线候选：昨日结账不是证伪的最强昨主线，且今日仍有涨停或成员未全面转负。
+    新方向候选：当日最大增量分支，且（热度增量>0 且原因匹配首板≥2，或热度增量≥2）。
+    两者同名时合并为一条。
+    """
+    today_by = {c["name"]: c for c in today_clusters}
+    y_heat = {c["name"]: c.get("heat") or 0 for c in yesterday_clusters}
+    true_names = {str(x.get("name") or "") for x in true_leaders}
+
+    def _detail(name: str, role: str, why: str) -> dict[str, Any]:
+        cluster = today_by.get(name) or {}
+        firsts = _first_board_members(today_pool, name)
+        members = []
+        for item in today_pool:
+            if name in split_reason(item.get("limit_up_reason")):
+                members.append(item)
+        height_names = [
+            str(x.get("name") or "")
+            for x in members
+            if str(x.get("name") or "") in true_names
+        ]
+        anchors = sorted(members, key=lambda x: _num(x.get("turnover")), reverse=True)
+        anchor_names = [str(x.get("name") or "") for x in anchors[:3] if x.get("name")]
+        still = int(cluster.get("count") or 0)
+        if still == 0:
+            falsify = "今日无涨停接力则撤销观察"
+        elif not firsts and not height_names:
+            falsify = "次日价量转负或首板消失则撤销观察"
+        else:
+            falsify = "价量转负，或首板扩散失败、真实身位掉队"
+        return {
+            "name": name,
+            "role": role,
+            "selection_reason": why,
+            "heat": cluster.get("heat") or 0,
+            "yesterday_heat": y_heat.get(name, 0),
+            "count": still,
+            "change_pct": cluster.get("change_pct"),
+            "height_names": height_names,
+            "capacity_anchors": anchor_names,
+            "first_boards": [str(x.get("name") or "") for x in firsts[:5]],
+            "falsify": falsify,
+        }
+
+    lines: list[dict[str, Any]] = []
+    lead = None
+    for theme in yesterday_themes:
+        name = str(theme.get("name") or "")
+        if not name or is_event_token(name):
+            continue
+        if theme.get("status") == "证伪":
+            continue
+        today = today_by.get(name)
+        still = int((today or {}).get("count") or 0)
+        if still == 0:
+            continue
+        lead = name
+        why = (
+            f"昨日主线结账为{theme.get('status')}，"
+            f"今日涨停{still}只，保留为次主线候选"
+        )
+        lines.append(_detail(name, "次主线候选", why))
+        break
+
+    inc = incremental
+    if inc:
+        name = str(inc.get("name") or "")
+        delta = float(inc.get("delta_heat") or 0)
+        first_n = int(inc.get("first_board_count") or 0)
+        qualifies = (delta > 0 and first_n >= 2) or delta >= 2
+        if qualifies and name and not is_event_token(name):
+            if lead == name:
+                lines[0]["role"] = "次主线候选兼新方向"
+                lines[0]["selection_reason"] += "；同时是当日最大增量分支，不重复列"
+            else:
+                why = (
+                    f"当日最大增量分支（热度+{delta:.0f}，"
+                    f"原因匹配首板{first_n}只）"
+                )
+                lines.append(_detail(name, "新方向候选", why))
+    return lines[:2]

@@ -199,6 +199,44 @@ class HiThinkClient:
         data = payload.get("data") or {}
         return data if isinstance(data, dict) else {}
 
+    def dragon_tiger_list(
+        self, trade_date: str, board_type: str = "all"
+    ) -> dict[str, Any]:
+        payload = self.get(
+            "/api/a-share/special-data/dragon-tiger-list",
+            {"date": trade_date, "board_type": board_type},
+        )
+        data = payload.get("data") or {}
+        return data if isinstance(data, dict) else {}
+
+    def hot_stock_list(self, period: str = "day") -> list[dict[str, Any]]:
+        payload = self.get(
+            "/api/a-share/special-data/hot-stock-list",
+            {"period": period},
+        )
+        return _items(payload)
+
+    def skyrocket_list(self, period: str = "day") -> list[dict[str, Any]]:
+        payload = self.get(
+            "/api/a-share/special-data/skyrocket-list",
+            {"period": period},
+        )
+        return _items(payload)
+
+    def ths_index_list(self, tag: str = "cn_concept") -> list[dict[str, Any]]:
+        payload = self.get(
+            "/api/a-share-index/catalog/ths-index-list",
+            {"tag": tag},
+        )
+        return _items(payload)
+
+    def ths_index_constituents(self, thscode: str) -> list[dict[str, Any]]:
+        payload = self.get(
+            "/api/a-share-index/constituents/ths-stock-list",
+            {"thscode": thscode},
+        )
+        return _items(payload)
+
     def anomaly_analysis_list(self, trade_date: str) -> list[dict[str, Any]]:
         # Official API is same-day snapshot; date_ms is sent for consistency.
         payload = self.get(

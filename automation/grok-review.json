@@ -1,0 +1,15 @@
+{
+  "status": "enabled",
+  "task_id": "31ed4ccf-92f1-4d93-82e2-6bb5d5120e6e",
+  "schedule_id": "453b8084-0e1a-4cf0-a3f2-6c3da5893d57",
+  "next_run": "2026-09-09T17:00:00+08:00",
+  "runtime": "Grok bot → Grok Build",
+  "request": {
+    "title": "生成A股收盘主线热度复盘",
+    "default_timezone": "Asia/Shanghai",
+    "cadence": "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR",
+    "time_of_day": "17:00",
+    "prompt": "你是触发器，不是写手。不要自己编写A股复盘、不要手填涨停/炸板/成交额等数字、不要修改盘前 feed.json。\n\n每次运行：启动 Grok Build，工作区为 GitHub 仓库 SparrowRick/Information-feed 的 main 分支。把仓库文件 docs/REVIEW-JOB.md 的全文作为 Grok Build 的唯一任务（按该文件跑 python3 -m review.build --out .，只提交 review-feed.json、archive/review/、samples/review/）。\n\n等 Grok Build 完成后，只回报：交易日、review id、commit 链接、是否改动了盘前文件（必须没有）。休市时 Grok Build 会跳过，你回报「非交易日已跳过」即可。\n\n若无法启动 Grok Build，或缺少 HITHINK_FINANCE_API_KEY：不要降级成自己写报告，直接说明失败原因。不要发送邮件或消息给第三方，不要改盘前 ChatGPT 任务。"
+  },
+  "note": "创建成功时的配置快照；实际任务状态以 Grok 自动化管理为准。修改本文件不会自动修改运行中的定时任务。盘前任务不在本 bot 范围内。"
+}
