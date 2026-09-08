@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/SparrowRick/Information-feed/schema/review-feed.schema.json",
+  "title": "A-share daily mainline heat review feed",
+  "type": "object",
+  "required": ["schema_version", "timezone", "updated_at", "latest_review_id", "items"],
+  "additionalProperties": true,
+  "properties": {
+    "schema_version": { "type": "string", "const": "1.0" },
+    "timezone": { "type": "string", "const": "Asia/Shanghai" },
+    "updated_at": { "type": ["string", "null"], "description": "ISO-8601 timestamp with +08:00 offset" },
+    "latest_review_id": { "type": ["string", "null"], "pattern": "^(review-[0-9]{4}-[0-9]{2}-[0-9]{2})?$" },
+    "items": {
+      "type": "array",
+      "maxItems": 30,
+      "items": { "$ref": "#/$defs/reviewItem" }
+    }
+  },
+  "$defs": {
+    "coreMetrics": {
+      "type": "object",
+      "required": [
+        "turnover",
+        "up",
+        "down",
+        "flat",
+        "median_pct",
+        "limit_up",
+        "limit_down",
+        "limit_break",
+        "seal_rate",
+        "nominal_height",
+        "true_height"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "turnover": { "type": "number" },
+        "up": { "type": "integer" },
+        "down": { "type": "integer" },
+        "flat": { "type": "integer" },
+        "median_pct": { "type": "number" },
+        "limit_up": { "type": "integer" },
+        "limit_down": { "type": "integer" },
+        "limit_break": { "type": "integer" },
+        "seal_rate": { "type": "number", "description": "封板率，0-100" },
+        "nominal_height": { "type": "integer" },
+        "true_height": { "type": "integer" }
+      }
+    },
+    "themeRow": {
+      "type": "object",
+      "required": ["name", "status", "change_pct", "note"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "status": { "type": "string", "enum": ["加强", "走弱", "证伪", "分化"] },
+        "change_pct": { "type": "number" },
+        "note": { "type": "string" }
+      }
+    },
+    "ladderRow": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "board": { "type": "integer" },
+        "reason": { "type": "string" }
+      }
+    },
+    "sectorRow": {
+      "type": "object",
+      "required": ["name", "heat", "change_pct", "status", "note"],
+      "additionalProperties": true,
+      "properties": {
+        "name": { "type": "string" },
+        "heat": { "type": "number" },
+        "change_pct": { "type": "number" },
+        "status": { "type": "string" },
+        "note": { "type": "string" }
+      }
+    },
+    "scenario": {
+      "type": "object",
+      "required": ["name", "condition", "action"],
+      "properties": {
+        "name": { "type": "string" },
+        "condition": { "type": "string" },
+        "action": { "type": "string" }
+      },
+      "additionalProperties": true
+    },
+    "reviewItem": {
+      "type": "object",
+      "required": [
+        "id",
+        "type",
+        "title",
+        "date",
+        "timezone",
+        "generated_at",
+        "cutoff_at",
+        "is_trading_day",
+        "summary",
+        "core_conflict",
+        "market_switches",
+        "core_metrics",
+        "yesterday_themes",
+        "ladder",
+        "sector_rotation",
+        "risks",
+        "next_day_scenarios",
+        "markdown",
+        "audit"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "id": { "type": "string", "pattern": "^review-[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "type": { "type": "string", "const": "review" },
+        "title": { "type": "string" },
+        "date": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "timezone": { "type": "string", "const": "Asia/Shanghai" },
+        "generated_at": { "type": "string" },
+        "cutoff_at": { "type": "string" },
+        "is_trading_day": { "type": "boolean" },
+        "summary": { "type": "string" },
+        "core_conflict": { "type": "string" },
+        "market_switches": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "core_metrics": {
+          "type": "object",
+          "required": ["today", "yesterday"],
+          "properties": {
+            "today": { "$ref": "#/$defs/coreMetrics" },
+            "yesterday": { "$ref": "#/$defs/coreMetrics" }
+          },
+          "additionalProperties": true
+        },
+        "yesterday_themes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/themeRow" }
+        },
+        "ladder": {
+          "type": "object",
+          "required": ["nominal", "true", "strong_first_boards"],
+          "properties": {
+            "nominal": { "type": "array", "items": { "$ref": "#/$defs/ladderRow" } },
+            "true": { "type": "array", "items": { "$ref": "#/$defs/ladderRow" } },
+            "strong_first_boards": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/ladderRow" }
+            }
+          },
+          "additionalProperties": true
+        },
+        "sector_rotation": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/sectorRow" }
+        },
+        "risks": { "type": "array", "items": { "type": "string" } },
+        "next_day_scenarios": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 3,
+          "items": { "$ref": "#/$defs/scenario" }
+        },
+        "markdown": { "type": "string" },
+        "audit": {
+          "type": "object",
+          "required": ["sources", "generated_at", "data_as_of"],
+          "properties": {
+            "sources": { "type": "array", "items": { "type": "string" } },
+            "generated_at": { "type": "string" },
+            "data_as_of": { "type": "string" }
+          },
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}
