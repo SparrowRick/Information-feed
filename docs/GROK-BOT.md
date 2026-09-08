@@ -6,8 +6,11 @@
 交易日 17:00 Asia/Shanghai
   Grok bot（触发器）
     → 启动 Grok Build
-    → Grok Build 按 docs/REVIEW-JOB.md 跑 python -m review.build --out .
-    → 只提交复盘文件到 main
+    → Grok Build 按 docs/REVIEW-JOB.md：
+         1) python -m review.build --out .     （唯一数据源）
+         2) 按 JSON 润色 title/summary/矛盾/正文   （不改数字）
+         3) python -m review.check_polish        （锁字段）
+         4) 提交润色后的 review-feed.json
 服务器稍后拉：
   https://raw.githubusercontent.com/SparrowRick/Information-feed/main/review-feed.json
 ```

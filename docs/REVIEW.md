@@ -109,4 +109,4 @@ Base：`https://fuyao.aicubes.cn`
 
 ## Grok bot
 
-每个交易日 17:00（Asia/Shanghai）由 Grok bot **只负责叫醒 Grok Build**。Grok Build 按 [REVIEW-JOB.md](REVIEW-JOB.md) 跑本管线并提交。盘前 feed 不在此任务内。说明见 [GROK-BOT.md](GROK-BOT.md)。
+每个交易日 17:00（Asia/Shanghai）由 Grok bot **只负责叫醒 Grok Build**。Grok Build 按 [REVIEW-JOB.md](REVIEW-JOB.md) 先跑本管线，再按数据润色 `title` / `summary` / `core_conflict` / `markdown` 等文案，经 `python -m review.check_polish` 锁住数字后提交。服务器拉到的是润色后的 feed。盘前不在此任务内。说明见 [GROK-BOT.md](GROK-BOT.md)。

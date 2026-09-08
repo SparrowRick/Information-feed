@@ -182,7 +182,8 @@
             "sources": { "type": "array", "items": { "type": "string" } },
             "generated_at": { "type": "string" },
             "data_as_of": { "type": "string" },
-            "gaps": { "type": "array", "items": { "type": "string" } }
+            "gaps": { "type": "array", "items": { "type": "string" } },
+            "polished": { "type": "boolean" }
           },
           "additionalProperties": true
         }
