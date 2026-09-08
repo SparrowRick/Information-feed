@@ -5,11 +5,10 @@
 ## 运行
 
 ```bash
-# 在仓库根目录 SparrowRick/Information-feed
-export HITHINK_FINANCE_API_KEY=...   # 或放进本机 secrets，禁止提交 Key
-python3 -m review --date 2026-09-08 --out out
-python3 -m review --out out            # 默认：上海时区最近已收盘交易日
-python3 -m review.build --date 2026-09-08 --out out
+# 在仓库根目录 SparrowRick/Information-feed 执行
+python3 -m review.build --date 2026-09-08 --out .
+python3 -m review.build --out .          # 默认：上海时区最近已收盘交易日
+python3 -m review --date 2026-09-08 --out .
 ```
 
 | 参数 | 说明 |
@@ -23,9 +22,9 @@ python3 -m review.build --date 2026-09-08 --out out
 
 ## 输出
 
-- `out/review-feed.json`：Feed，新条目插到 `items` 最前，保留约 30 期；同日重跑覆盖同一 `id`。
-- `out/archive/review/YYYY-MM-DD.json`：单期完整 JSON。
-- `out/samples/YYYY-MM-DD.md`：可读中文 markdown。
+- `review-feed.json`（`--out .` 时写到仓库根）：Feed，新条目插到 `items` 最前，保留约 30 期；同日重跑覆盖同一 `id`。
+- `archive/review/YYYY-MM-DD.json`：单期完整 JSON。
+- `samples/review/YYYY-MM-DD.md`（可选）：可读中文 markdown。
 - 仓库根目录 `review-feed.json` 是空骨架；`schema/review-feed.schema.json` 是字段约束。
 
 发布到 GitHub 后，服务器可单独拉：
@@ -76,7 +75,7 @@ Base：`https://fuyao.aicubes.cn`
 - **证伪**：今日无涨停接力且成员回撤。
 - **分化**：部分成员继续涨停、部分转弱。
 
-若 `out/review-feed.json` 已有上一交易日条目，则复用其 `core_metrics.today` 作为今日的「昨日盘面」；否则用昨日涨停/跌停/炸板池 + 上证/深证指数历史成交额做轻量结账。异动列表的 `keyword_list` / `tag_name` 只作概念切换备注，不替代 `limit_up_reason`。
+若 `review-feed.json`（`--out .` 时写到仓库根） 已有上一交易日条目，则复用其 `core_metrics.today` 作为今日的「昨日盘面」；否则用昨日涨停/跌停/炸板池 + 上证/深证指数历史成交额做轻量结账。异动列表的 `keyword_list` / `tag_name` 只作概念切换备注，不替代 `limit_up_reason`。
 
 ## Markdown 结构
 
