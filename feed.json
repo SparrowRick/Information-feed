@@ -1,6 +1,436 @@
 {
-  "updated_at": "2026-09-08T12:34:28+08:00",
+  "updated_at": "2026-09-09T08:14:48+08:00",
   "items": [
+    {
+      "version": 2,
+      "id": "premarket-2026-09-09",
+      "type": "premarket",
+      "title": "9月9日A股盘前简报",
+      "date": "2026-09-09",
+      "timezone": "Asia/Shanghai",
+      "edition": "live",
+      "generated_at": "2026-09-09T08:14:15+08:00",
+      "cutoff_at": "2026-09-09T08:10:53+08:00",
+      "target_publish_at": "2026-09-09T08:30:00+08:00",
+      "is_trading_day": true,
+      "trading_day_source_ids": [
+        "sse-holidays-2026",
+        "sse-latest-notices"
+      ],
+      "coverage": {
+        "status": "partial",
+        "from": "2026-09-08T15:00:00+08:00",
+        "to": "2026-09-09T08:10:53+08:00",
+        "gaps": [
+          "尚未接通固定行情API；采用带明确交易日的可信收盘报道。涨跌家数、离岸人民币、美债收益率、原油、黄金及白糖夜盘准确报价未取得，均留空，不填0或估算。",
+          "江波龙最新回购公告、龙版传媒最新停牌公告未取得交易所／巨潮原文件；已打开两家媒体的公告报道交叉核实。龙版传媒业务背景另核对前次公告原文件。",
+          "城市更新板块的可靠收盘涨跌及各主题完整价格序列未取得，无法判断充分计价程度；海外光纤合同未证实任何A股公司直接取得订单。",
+          "原文复核中部分直链出现间歇访问错误，已从本次运行中成功打开的同一原文重新核对；未取得原文的其他线索不采用。",
+          "复盘窗口9月8日、9月4日、9月2日没有可评分的真实盘前原版：9月8日为回溯样稿，旧版缺来源与观察条件；不纳入判断表现。"
+        ]
+      },
+      "overnight": "昨日沪指涨0.20%、创业板跌1.15%，近1.96万亿元成交下，周期与科技分化。美股9月8日三大指数收跌，光通信逆势走强。短线先验证海外订单能否带动A股修复，同时防范高位题材停牌；今日9:30国内物价数据尚待公布。",
+      "overview_source_ids": [
+        "ashare-close-20260908",
+        "us-close-20260908",
+        "corning-verizon-20260908",
+        "longban-halt",
+        "nbs-calendar-2026"
+      ],
+      "market_snapshot": [
+        {
+          "name": "上证指数",
+          "value": 3940.55,
+          "unit": "点",
+          "change_pct": 0.2,
+          "as_of": "2026-09-08T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close-20260908"
+          ]
+        },
+        {
+          "name": "深证成指",
+          "value": 13703.21,
+          "unit": "点",
+          "change_pct": -0.52,
+          "as_of": "2026-09-08T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close-20260908"
+          ]
+        },
+        {
+          "name": "创业板指",
+          "value": 3359.72,
+          "unit": "点",
+          "change_pct": -1.15,
+          "as_of": "2026-09-08T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close-20260908"
+          ]
+        },
+        {
+          "name": "沪深成交额",
+          "value": 19604,
+          "unit": "亿元",
+          "change_pct": null,
+          "as_of": "2026-09-08T15:00:00+08:00",
+          "session": "close",
+          "source_ids": [
+            "ashare-close-20260908"
+          ]
+        }
+      ],
+      "market_note": "表内均为9月8日A股收盘口径，沪深成交额不含北交所。美国当地9月8日收盘：道指跌1.18%、纳指跌0.32%、标普500跌0.58%；未核实对应指数点位，故不填点位卡片。其他汇债商品及涨跌家数缺项见coverage.gaps；没有9月9日竞价或开盘数据。",
+      "today": [
+        {
+          "follow_until": "2026-09-16",
+          "id": "corning-verizon-fiber-20260908",
+          "title": "海外光纤订单落地，A股是否响应仍待验证",
+          "why": "康宁9月8日公布与Verizon覆盖2027—2032年的多年光纤供应协议；美股康宁涨超7%、Lumentum涨超11%，而昨日A股光模块偏弱。判断上，这是需求线索，不等于国内厂商拿到订单。未来几日看A股光通信修复是否扩散，并核对公司订单；若仅高开回落或没有业务证据，跨市场催化减弱。",
+          "what_changed": "康宁公司原文确认与Verizon达成多年光纤及连接解决方案供应协议，供应期为2027—2032年；不是A股公司已确认的近期收入。",
+          "priced_in": "美国当地9月8日康宁、Coherent各涨超7%，Lumentum涨超11%；同日A股光模块板块偏弱。两地涨跌并不能单独证明该合同的因果贡献。",
+          "watch": "未来1—5个交易日观察A股光通信能否由少数个股修复扩展为板块响应，并以国内公司公告核实客户、合同及交付期，不按概念名单认定受益公司。",
+          "invalidates": "若A股仅短暂高开随后回落，或至跟踪期结束仍无可核实的国内业务增量，跨市场短期催化判断减弱；不能把2027年起的供应直接算入本周利润。",
+          "kind": "catalyst",
+          "novelty": "new",
+          "sectors": [
+            "光纤光缆",
+            "光通信"
+          ],
+          "companies": [],
+          "source_ids": [
+            "corning-verizon-20260908",
+            "us-close-20260908",
+            "ashare-close-20260908"
+          ]
+        },
+        {
+          "follow_until": "2026-09-16",
+          "id": "longban-halt-20260909",
+          "title": "龙版传媒今起停牌，退出时间不再可控",
+          "why": "龙版传媒昨晚披露9月9日起停牌核查，复牌日未定；此前七个交易日六次收盘涨停，累计涨93.47%，昨日收涨9.12%。AI视频收入占比不足0.01%，尚不能支撑业绩重估。对1—5日交易，首要风险是退出时间不可控。后续核对复牌公告；复牌解除流动性限制，新的实质业务披露才可能改变基本面判断。",
+          "what_changed": "新增停牌核查安排：9月9日开市起停牌，披露核查公告后复牌。前次业务风险提示不能替代本次停牌消息。",
+          "priced_in": "8月31日至9月8日累计涨93.47%；9月8日收盘涨9.12%，并非七次连续收盘涨停。晚间停牌披露后尚无A股交易反应。",
+          "watch": "跟踪公司核查结论与正式复牌安排；如观察其他AI视频题材股，须独立核实其业务和交易表现，不把龙版传媒风险机械推广到全行业。",
+          "invalidates": "官方复牌公告会改变无法交易的状态；可核实的新业务收入或合同若足以改变收入结构，需重估基本面证据不足的判断。停牌本身不证明复牌必跌。",
+          "kind": "risk",
+          "novelty": "new",
+          "sectors": [
+            "出版传媒"
+          ],
+          "companies": [
+            {
+              "name": "龙版传媒",
+              "code": "605577",
+              "exchange": "SSE",
+              "relation": "停牌核查的直接主体；主营出版等业务。公告称AI视频收入相对2025年公司营业收入不足0.01%，并非重要利润来源。",
+              "source_ids": [
+                "longban-halt",
+                "longban-business-disclosure"
+              ]
+            }
+          ],
+          "source_ids": [
+            "longban-halt",
+            "longban-halt-crosscheck",
+            "longban-business-disclosure"
+          ]
+        },
+        {
+          "follow_until": "2026-09-16",
+          "id": "longsys-repurchase-20260908",
+          "title": "江波龙已回购4.48亿元，区别于新增提案",
+          "why": "江波龙新增的是已经花出4.48亿元回购A股，而非再次提出方案；回购124.95万股，昨收涨0.18%，晚间披露后的交易反应仍未知。原4—8亿元计划下限已达到，不代表今后每日持续买入。接下来核对新增回购披露及价格承接；若没有后续买盘证据且股价放量转弱，短期支撑判断减弱。",
+          "what_changed": "公司9月8日首次实施回购124.95万股，耗资4.48亿元（不含交易费用），并在晚间披露；8月已公布的4—8亿元计划不是新方案。",
+          "priced_in": "9月8日A股收盘358.86元、涨0.18%；这是实际回购发生日的收盘，不能当作晚间公告发布后的价格反馈。",
+          "watch": "核对后续新增回购数量、金额和价格表现。回购用于股权激励或员工持股计划，并非立即注销；本次金额已超过计划下限，后续节奏需以披露为准。",
+          "invalidates": "若没有持续回购或其他新增买盘的证据，且股价放量转弱，短期资金支撑判断减弱；不把回购价视作保证不跌的底价。",
+          "kind": "catalyst",
+          "novelty": "update",
+          "sectors": [
+            "半导体存储"
+          ],
+          "companies": [
+            {
+              "name": "江波龙",
+              "code": "301308",
+              "exchange": "SZSE",
+              "relation": "实际回购A股股份的公司，主营Flash及DRAM存储器研发、设计和销售；不推断其他存储公司同步获得资金支持。",
+              "source_ids": [
+                "longsys-repurchase",
+                "longsys-crosscheck"
+              ]
+            }
+          ],
+          "source_ids": [
+            "longsys-repurchase",
+            "longsys-crosscheck"
+          ]
+        },
+        {
+          "follow_until": "2026-09-16",
+          "id": "urban-renewal-20260908",
+          "title": "城市更新再推进，短期验证落在资金与项目",
+          "why": "9月8日国务院专题学习城市更新，提出政府投入、财政金融协同和多元投融资；这是政策推进，报道未给新增资金总额或上市公司订单。暂无可靠板块收盘口径，无法判断提前计价。未来五日看地方资金安排、项目招标和公司合同；若只有概念转述、未见实施进展，短期催化依据不足。",
+          "what_changed": "国务院专题学习聚焦城市更新，提出加大政府投入、强化财政金融协同、推动重大工程项目建设；报道未公布新增投入总额。",
+          "priced_in": "消息于9月8日收盘后报道；未取得直接相关板块完整价格序列，无法核实此前涨幅与计价程度。",
+          "watch": "将政策线索转为可验证项目：地方资金安排、具体招标、上市公司合同金额及履行期限；没有直接证据不列关联公司。",
+          "invalidates": "未来五个交易日若仅出现重复政策解读，未见资金或项目实施进展，短期催化依据减弱；长期城市更新方向不等于短期利润兑现。",
+          "kind": "catalyst",
+          "novelty": "update",
+          "sectors": [
+            "建筑工程",
+            "城市基础设施"
+          ],
+          "companies": [],
+          "source_ids": [
+            "urban-renewal-20260908"
+          ]
+        },
+        {
+          "follow_until": "2026-09-16",
+          "id": "sugar-market-20260908",
+          "title": "糖价与相关股票已同步上涨，检验延续而非抢旧闻",
+          "why": "昨日白糖期货与糖业、代糖股票同步走强，是已发生的行情更新，不是昨夜新增利好。报道中的减产预期仍待实际供给数据验证，不能直接等同利润增长。接下来同时观察糖价、股票上涨范围及企业成本端；若期价回落而股票继续透支预期，或成本抵消提价，延续判断减弱。",
+          "what_changed": "9月8日白糖主力期货盘中触及近两个月高位，糖业与代糖股票同步走强；作为已知行情的延续观察，不冒充新公告。",
+          "priced_in": "9月8日已有多只相关股票涨停，三元生物涨超14%；期货表述是当日盘中新高，不是已核实的夜盘结算价。",
+          "watch": "核实后续现货／期货价格、产量与出口数据，以及上市公司实际售价和成本变化。先区分生产端、贸易端、下游加工端，不假定涨价对全链条同向有利。",
+          "invalidates": "若期价回落、板块上涨范围收窄，或新增经营信息显示成本上升抵消售价改善，糖价驱动的短期延续判断减弱。",
+          "kind": "catalyst",
+          "novelty": "known",
+          "sectors": [
+            "制糖",
+            "代糖"
+          ],
+          "companies": [],
+          "source_ids": [
+            "sugar-market-20260908"
+          ]
+        }
+      ],
+      "review": [],
+      "review_note": "已按第1、3、5个交易日对应9月8日、9月4日、9月2日检查原版条件。9月8日归档是回溯样稿，9月4日及9月2日旧版无逐条来源，也无合格实时盘前归档；本期不评命中，不把独立盘后主线复盘当作盘前原话。本期正式原版后续按交易日跟踪。",
+      "calendar": [
+        {
+          "title": "中国8月CPI、PPI（待公布）",
+          "date": "2026-09-09",
+          "scheduled_at": "2026-09-09T09:30:00+08:00",
+          "time_precision": "minute",
+          "why": "今日09:30计划公布，尚无结果；观察物价变化是否支持涨价与需求判断。时间以统计局临时通知为准。",
+          "source_ids": [
+            "nbs-calendar-2026"
+          ]
+        },
+        {
+          "title": "美国8月CPI（待公布）",
+          "date": "2026-09-11",
+          "scheduled_at": "2026-09-11T20:30:00+08:00",
+          "time_precision": "minute",
+          "why": "北京时间11日20:30计划公布，关注利率与风险偏好变化；不预填数值，跨周持有需考虑公布后的波动。",
+          "source_ids": [
+            "bls-cpi-calendar"
+          ]
+        },
+        {
+          "title": "中国8月国民经济运行情况（待公布）",
+          "date": "2026-09-15",
+          "scheduled_at": "2026-09-15T10:00:00+08:00",
+          "time_precision": "minute",
+          "why": "15日10:00计划公布生产、消费及投资等数据，检验内需与项目落地逻辑；官方日程可能调整。",
+          "source_ids": [
+            "nbs-calendar-2026"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "id": "sse-holidays-2026",
+          "title": "关于上海证券交易所2026年部分节假日休市安排的通知",
+          "url": "https://www.sse.com.cn/disclosure/announcement/general/c/c_20251222_10802507.shtml",
+          "publisher": "上海证券交易所",
+          "source_type": "official",
+          "published_at": null,
+          "published_date": "2025-12-22",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-09T08:10:08+08:00",
+          "timing_note": "年度官方安排；9月9日为周三，且不在公布的节假日休市区间。原文只标日期。",
+          "reference_only": false
+        },
+        {
+          "id": "sse-latest-notices",
+          "title": "上交所一般公告",
+          "url": "https://www.sse.com.cn/disclosure/announcement/general/",
+          "publisher": "上海证券交易所",
+          "source_type": "official",
+          "published_at": null,
+          "published_date": null,
+          "time_precision": "unknown",
+          "retrieved_at": "2026-09-09T08:10:08+08:00",
+          "timing_note": "动态公告列表无统一发布时间；本次截稿前打开，最新可见条目截至9月8日，未见9月9日全市场临时休市通知。结合当年官方休市安排核实，不把个别证券停牌当成全市场休市。",
+          "reference_only": false
+        },
+        {
+          "id": "ashare-close-20260908",
+          "title": "A股指数走势分化 周期板块表现强劲",
+          "url": "https://www.stcn.com/article/detail/4177382.html",
+          "publisher": "上海证券报／证券时报网",
+          "source_type": "media",
+          "published_at": "2026-09-09T07:32:00+08:00",
+          "published_date": "2026-09-09",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:20+08:00",
+          "timing_note": "原文标明9月9日07:32，报道的行情为9月8日A股收盘；不是9月9日盘中报价。",
+          "reference_only": false
+        },
+        {
+          "id": "us-close-20260908",
+          "title": "美股三大指数集体收跌 光通信板块大涨",
+          "url": "https://www.stcn.com/article/detail/4177349.html",
+          "publisher": "人民财讯／证券时报网",
+          "source_type": "media",
+          "published_at": "2026-09-09T07:07:00+08:00",
+          "published_date": "2026-09-09",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:20+08:00",
+          "timing_note": "原文07:07发布，明确行情交易日为美国当地9月8日；不沿用9月7日劳动节休市前报价。",
+          "reference_only": false
+        },
+        {
+          "id": "corning-verizon-20260908",
+          "title": "Verizon and Corning Announce Multi-year, Multi-billion Dollar Supply Agreement for Broadband Expansion and Next-Gen AI Infrastructure",
+          "url": "https://www.corning.com/worldwide/en/about-us/news-events/news-releases/2026/09/verizon-and-corning-announce-multi-year-multi-billion-dollar-supply-agreement-for-broadband-expansion-and-next-gen-ai-infrastructure.html",
+          "publisher": "Corning Incorporated",
+          "source_type": "company",
+          "published_at": null,
+          "published_date": "2026-09-08",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-09T08:10:20+08:00",
+          "timing_note": "公司新闻稿仅列美国当地9月8日，未给时分，不编造北京时间发布时间；已在本次北京时间截稿前打开原文。",
+          "reference_only": false
+        },
+        {
+          "id": "longsys-repurchase",
+          "title": "存储龙头，今日回购超4亿元",
+          "url": "https://www.stcn.com/article/detail/4177124.html",
+          "publisher": "证券时报网",
+          "source_type": "media",
+          "published_at": "2026-09-08T20:58:00+08:00",
+          "published_date": "2026-09-08",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:53+08:00",
+          "timing_note": "原文20:58发布，引用公司9月8日晚公告；回购实际实施日为9月8日。此次未取得该回购公告的交易所／巨潮原文件。",
+          "reference_only": false
+        },
+        {
+          "id": "longsys-crosscheck",
+          "title": "V观财报｜千亿存储龙头江波龙4.48亿回购A股，在港上市首日破发",
+          "url": "https://finance.eastmoney.com/a/202609083868309067.html",
+          "publisher": "中新经纬／东方财富网",
+          "source_type": "media",
+          "published_at": "2026-09-08T21:04:00+08:00",
+          "published_date": "2026-09-08",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:36+08:00",
+          "timing_note": "转载页面明确21:04，正文交叉核实回购金额、用途及9月8日A股收盘涨跌；不采用两篇报道存在差异的H股发行数量。",
+          "reference_only": false
+        },
+        {
+          "id": "longban-halt",
+          "title": "深夜突发！7天6涨停牛股，停牌核查",
+          "url": "https://www.stcn.com/article/detail/4177257.html",
+          "publisher": "证券时报网",
+          "source_type": "media",
+          "published_at": "2026-09-08T23:34:00+08:00",
+          "published_date": "2026-09-08",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:53+08:00",
+          "timing_note": "正文引用9月8日晚公告：9月9日开市起停牌，披露核查公告后复牌；采用收盘口径，不采用当日盘中曾触及七连板的标题。",
+          "reference_only": false
+        },
+        {
+          "id": "longban-halt-crosscheck",
+          "title": "龙版传媒：股价累计涨幅约为93.47%，9月9日停牌核查",
+          "url": "https://www.bjnews.com.cn/detail/1788878772129843.html",
+          "publisher": "新京报贝壳财经",
+          "source_type": "media",
+          "published_at": "2026-09-08T22:56:00+08:00",
+          "published_date": "2026-09-08",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:20+08:00",
+          "timing_note": "原文22:56发布，与证券时报报道交叉确认停牌安排；本次未取得最新停牌公告的交易所原文件。",
+          "reference_only": false
+        },
+        {
+          "id": "longban-business-disclosure",
+          "title": "黑龙江出版传媒股份有限公司股票交易异常波动暨风险提示公告（2026-031）",
+          "url": "https://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/CNSESH_STOCK/2026/2026-9/2026-09-08/12588517.PDF",
+          "publisher": "龙版传媒／新浪财经公告存档",
+          "source_type": "company",
+          "published_at": null,
+          "published_date": "2026-09-08",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-09T08:10:36+08:00",
+          "timing_note": "存档披露日期9月8日、公告落款9月7日；原文件只用于核实业务与风险背景，不用于证明9月9日停牌；停牌依据见两篇9月8日晚报道。",
+          "reference_only": false
+        },
+        {
+          "id": "urban-renewal-20260908",
+          "title": "李强主持国务院第二十一次专题学习",
+          "url": "https://www.xinhuanet.com/politics/20260908/90646e4f3fe44860938b488cad72a1a6/c.html",
+          "publisher": "新华社／新华网",
+          "source_type": "media",
+          "published_at": "2026-09-08T19:33:28+08:00",
+          "published_date": "2026-09-08",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:36+08:00",
+          "timing_note": "新华网原文明确9月8日19:33:28；报道的是当日国务院专题学习，不是新增专项资金规模公告。",
+          "reference_only": false
+        },
+        {
+          "id": "sugar-market-20260908",
+          "title": "厄尔尼诺扰动 “糖”股期联袂上涨",
+          "url": "https://www.stcn.com/article/detail/4177392.html",
+          "publisher": "人民财讯／证券时报网",
+          "source_type": "media",
+          "published_at": "2026-09-09T07:33:00+08:00",
+          "published_date": "2026-09-09",
+          "time_precision": "minute",
+          "retrieved_at": "2026-09-09T08:10:53+08:00",
+          "timing_note": "原文07:33发布，行情指向9月8日；白糖期货新高为盘中口径，未取得该合约夜盘收盘精确报价。产量观点是受访人士判断，不是本期核实的官方实际产量。",
+          "reference_only": false
+        },
+        {
+          "id": "nbs-calendar-2026",
+          "title": "2026年国家统计局主要统计信息发布日程表",
+          "url": "https://www.stats.gov.cn/xxgk/sjfb/fbrcb/202512/t20251224_1962137.html",
+          "publisher": "国家统计局",
+          "source_type": "official",
+          "published_at": null,
+          "published_date": "2025-12-25",
+          "time_precision": "day",
+          "retrieved_at": "2026-09-09T08:10:36+08:00",
+          "timing_note": "信息公开页面成文日期2025年12月25日；日程均为北京时间。原表注明发布日期为初步计划，可能调整；本次截稿前重新核对9月栏。",
+          "reference_only": false
+        },
+        {
+          "id": "bls-cpi-calendar",
+          "title": "Schedule of Releases for the Consumer Price Index",
+          "url": "https://www.bls.gov/schedule/news_release/cpi.htm",
+          "publisher": "美国劳工统计局（BLS）",
+          "source_type": "official",
+          "published_at": null,
+          "published_date": null,
+          "time_precision": "unknown",
+          "retrieved_at": "2026-09-09T08:10:53+08:00",
+          "timing_note": "静态官方日历未标统一发布日期，本次截稿前打开核对：8月CPI于9月11日美东08:30发布；按America/New_York当日夏令时换算为北京时间20:30。未采纳尚未发布的数据。",
+          "reference_only": false
+        }
+      ],
+      "disclaimer": "本简报为公开信息研究与条件跟踪，不构成收益保证或个性化买卖建议。"
+    },
     {
       "version": 2,
       "id": "premarket-2026-09-08",
@@ -381,5 +811,5 @@
   ],
   "schema_version": "2.0",
   "timezone": "Asia/Shanghai",
-  "latest_premarket_id": "premarket-2026-09-08"
+  "latest_premarket_id": "premarket-2026-09-09"
 }
