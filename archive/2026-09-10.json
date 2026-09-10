@@ -1,0 +1,456 @@
+{
+  "version": 2,
+  "id": "premarket-2026-09-10",
+  "type": "premarket",
+  "title": "9月10日A股盘前简报",
+  "date": "2026-09-10",
+  "timezone": "Asia/Shanghai",
+  "edition": "live",
+  "generated_at": "2026-09-10T08:12:04+08:00",
+  "cutoff_at": "2026-09-10T08:03:46+08:00",
+  "target_publish_at": "2026-09-10T08:30:00+08:00",
+  "is_trading_day": true,
+  "trading_day_source_ids": [
+    "sse-holidays-2026",
+    "sse-latest-notices"
+  ],
+  "coverage": {
+    "status": "partial",
+    "from": "2026-09-09T08:10:53+08:00",
+    "to": "2026-09-10T08:03:46+08:00",
+    "gaps": [
+      "尚未接通固定行情API；A股采用带明确交易日和收盘口径的可信报道。未取得涨跌家数、离岸人民币、国内原油期货及黄金的可靠最新报价，均不填0或估算。",
+      "深交所一般公告列表本次访问超时；交易日依据上交所2026年休市安排、截稿前可访问的一般公告列表及仓库内已核实日历交叉判断，未见全市场临时休市信息。",
+      "侨银股份、城地香江及商品涨价风险提示的交易所／巨潮公告原文件未能取得可读正文；仅采用截稿前已公开、带发布时间并逐项转述公告内容的媒体原文，未延伸公司关联。",
+      "隔夜布伦特与美股采用美联社收盘报道；没有国内市场对隔夜油价结算的盘前成交反馈，不把昨日A股周期板块上涨写成隔夜消息后的反应。",
+      "复盘仅找到9月9日真实实时盘前归档；9月7日、9月3日无合格日归档，9月8日为回溯样稿，因此只做第1交易日跟踪。"
+    ]
+  },
+  "overnight": "昨日沪指涨0.28%、创业板跌0.14%，煤炭等周期占优，沪深成交缩至1.86万亿元。隔夜布油涨3.4%至101.21美元，美股三大指数收跌。今天关注资源品分化：上游受益与下游成本压力需分开看；晚间美国PPI公布前，控制追高和跨夜风险。",
+  "overview_source_ids": [
+    "ashare-close-20260909",
+    "ap-us-oil-20260909",
+    "commodity-risk-notices-20260909",
+    "bls-ppi-calendar"
+  ],
+  "market_snapshot": [
+    {
+      "name": "上证指数",
+      "value": 3951.51,
+      "unit": "点",
+      "change_pct": 0.28,
+      "as_of": "2026-09-09T15:00:00+08:00",
+      "session": "close",
+      "source_ids": [
+        "ashare-close-20260909"
+      ]
+    },
+    {
+      "name": "深证成指",
+      "value": 13723.32,
+      "unit": "点",
+      "change_pct": 0.15,
+      "as_of": "2026-09-09T15:00:00+08:00",
+      "session": "close",
+      "source_ids": [
+        "ashare-close-20260909"
+      ]
+    },
+    {
+      "name": "创业板指",
+      "value": 3354.97,
+      "unit": "点",
+      "change_pct": -0.14,
+      "as_of": "2026-09-09T15:00:00+08:00",
+      "session": "close",
+      "source_ids": [
+        "ashare-close-20260909"
+      ]
+    },
+    {
+      "name": "沪深成交额",
+      "value": 18556,
+      "unit": "亿元",
+      "change_pct": null,
+      "as_of": "2026-09-09T15:00:00+08:00",
+      "session": "close",
+      "source_ids": [
+        "ashare-close-20260909"
+      ]
+    }
+  ],
+  "market_note": "表内均为9月9日A股收盘数据，成交额为沪深两市口径，较前一交易日减少1047亿元。美国当地9月9日收盘，标普500、纳指、道指分别跌约0.5%、0.6%、0.8%；布伦特原油结算101.21美元／桶、涨3.4%。海外数据仅写入正文，不补造未核实的盘前即时点位。",
+  "today": [
+    {
+      "follow_until": "2026-09-17",
+      "id": "oil-above-100-20260909",
+      "title": "布油重上100美元，能源强与风险偏好弱并存",
+      "why": "布油隔夜结算101.21美元，涨3.4%，标普能源板块是唯一上涨行业，三大指数则集体下跌。这给A股油气上游提供价格线索，也抬高运输、制造成本及利率压力；国内尚无本轮隔夜反应。观察油价能否守住100美元及能源股是否扩散；若油价回落且板块高开低走，催化减弱。",
+      "what_changed": "美国当地9月9日，布伦特原油结算价重新站上100美元，为7月以来首次；与此同时美股三大指数集体下跌，能源板块逆势上涨。",
+      "priced_in": "隔夜标普500跌0.5%、纳指跌0.6%、道指跌0.8%，能源为标普500唯一上涨板块。A股9月9日煤炭等周期已强，但发生在本次海外结算前，不能当作隔夜反馈。",
+      "watch": "未来1—5个交易日观察布油能否守住100美元、A股能源板块上涨范围与成交是否扩散，并分辨上游售价弹性和下游成本压力。",
+      "invalidates": "若油价迅速跌回100美元下方且A股能源板块高开低走，短期催化减弱；若运输和制造板块未出现利润预期下修，广谱成本风险也应下调。",
+      "kind": "risk",
+      "novelty": "new",
+      "sectors": [
+        "石油石化",
+        "交通运输",
+        "基础化工"
+      ],
+      "companies": [],
+      "source_ids": [
+        "ap-us-oil-20260909",
+        "ashare-close-20260909"
+      ]
+    },
+    {
+      "follow_until": "2026-09-17",
+      "id": "china-prices-202608",
+      "title": "CPI、PPI环比转正，价格修复仍需需求验证",
+      "why": "8月CPI环比由-0.1%转为+0.4%、同比涨0.8%；PPI环比由-0.7%转为+0.4%、同比涨3.8%。数据昨日9:30公布，随后沪指涨0.28%、煤炭涨2.98%，但不能认定因果，创业板仍跌0.14%。重点看改善能否传至消费和盈利；若15日需求数据偏弱且涨价主要由成本推动，修复判断打折。",
+      "what_changed": "国家统计局公布8月价格数据：CPI同比上涨0.8%、环比上涨0.4%，核心CPI同比上涨1.0%；PPI同比上涨3.8%、环比上涨0.4%，生产资料价格强于生活资料。",
+      "priced_in": "数据于9月9日09:30发布，早于当日收盘；上证指数随后收涨0.28%、申万煤炭涨2.98%，创业板指跌0.14%。这只是同日市场表现，不足以证明价格数据是唯一驱动。",
+      "watch": "观察9月15日生产、消费和投资数据，及消费品价格、工业企业毛利是否跟进；区分需求改善与能源、原料成本抬升。",
+      "invalidates": "若活动数据转弱、消费端价格改善收窄，或企业披露显示原料涨价挤压利润，广谱价格修复的短线交易逻辑减弱。",
+      "kind": "catalyst",
+      "novelty": "new",
+      "sectors": [
+        "周期资源",
+        "消费"
+      ],
+      "companies": [],
+      "source_ids": [
+        "nbs-ppi-202608",
+        "nbs-prices-interpretation-202608",
+        "stcn-prices-202608",
+        "ashare-close-20260909"
+      ]
+    },
+    {
+      "follow_until": "2026-09-17",
+      "id": "commodity-profit-warnings-20260909",
+      "title": "涨价主线进入公告校验期，涨价不等于利润",
+      "why": "红棉股份连续两日涨停，中粮糖业两日涨19.93%，精艺股份也连板；盘后公司却提示原糖影响不确定、铜价上涨不利于加工费模式、提价或只是成本传导。短线已进入“利润验证”。看毛利率、调价和订单；若期货回落或公告后承接转弱，退潮风险上升。",
+      "what_changed": "9月9日晚，多家资源品相关公司集中澄清：红棉股份称原糖上涨对短期业绩影响不确定；精艺股份称铜价上涨不利于加工费模式；黑猫股份称提价主要是成本传导，不必然改善盈利。",
+      "priced_in": "截至9月9日收盘，红棉股份连续两日涨停，中粮糖业两日累计涨19.93%，精艺股份连续两日涨停。风险提示均在收盘后，尚无公告后的交易反应。",
+      "watch": "核对现货、期货价格是否延续，以及公司毛利率、实际调价、订单和库存数据；按生产端、加工端和下游分别验证。",
+      "invalidates": "若商品价格回落或公告后个股承接转弱，涨价题材延续判断减弱；反之，若后续财报明确显示售价提升超过成本并带来利润扩张，风险判断需下调。",
+      "kind": "risk",
+      "novelty": "update",
+      "sectors": [
+        "制糖",
+        "有色加工",
+        "炭黑"
+      ],
+      "companies": [
+        {
+          "name": "红棉股份",
+          "code": "000523",
+          "exchange": "SZSE",
+          "relation": "公司糖业收入占比较高，盘后明确提示原糖价格与厄尔尼诺对短期业绩影响存在不确定性。",
+          "source_ids": [
+            "commodity-risk-notices-20260909"
+          ]
+        },
+        {
+          "name": "精艺股份",
+          "code": "002295",
+          "exchange": "SZSE",
+          "relation": "公司铜加工业务主要赚取加工费，公告提示铜价上涨对其经营模式并非直接利好。",
+          "source_ids": [
+            "commodity-risk-notices-20260909"
+          ]
+        },
+        {
+          "name": "黑猫股份",
+          "code": "002068",
+          "exchange": "SZSE",
+          "relation": "公司公告称炭黑产品涨价主要是原料成本上涨后的传导，不代表盈利同步改善。",
+          "source_ids": [
+            "commodity-risk-notices-20260909"
+          ]
+        }
+      ],
+      "source_ids": [
+        "commodity-risk-notices-20260909"
+      ]
+    },
+    {
+      "follow_until": "2026-09-17",
+      "id": "qiaoyin-compute-contract-20260909",
+      "title": "侨银首单算力合同，先算资金与兑现",
+      "why": "侨银股份拟采购约2.65亿元服务器，并签首单算力服务合同，估算每年含税6656万元、占2025年营收1.84%；约2.38亿元采购拟自筹，合同不保收益。消息收盘后披露，尚无价格反馈。看合同约束力、交付、回款和资金压力；若只有概念交易而无履约节点，催化失效。",
+      "what_changed": "主营城乡环境服务的侨银股份披露算力租赁进展：拟采购服务器及配套设备约2.65亿元，前三批已签约1.98亿元；首份算力服务合同按年签署，估算每年含税6656.03万元。",
+      "priced_in": "报道在9月9日收盘后发布，A股尚无披露后的价格反应。合同金额是公司估算且无业绩保证或最低收益承诺，不能按五年一次性确认。",
+      "watch": "核对每年合同是否如期签署、设备交付和利用率、客户信用及回款，以及自筹采购资金对现金流的影响。",
+      "invalidates": "若合同未按年续签、设备交付或回款延期，算力业务催化减弱；若后续出现有约束力的订单、稳定回款和可验证利润，则资金与兑现风险需下调。",
+      "kind": "risk",
+      "novelty": "new",
+      "sectors": [
+        "环境服务",
+        "算力租赁"
+      ],
+      "companies": [
+        {
+          "name": "侨银股份",
+          "code": "002973",
+          "exchange": "SZSE",
+          "relation": "服务器采购与首份算力服务合同的直接主体；原主营业务为城乡环境服务，算力业务仍处早期阶段。",
+          "source_ids": [
+            "qiaoyin-compute-20260909"
+          ]
+        }
+      ],
+      "source_ids": [
+        "qiaoyin-compute-20260909"
+      ]
+    },
+    {
+      "follow_until": "2026-09-17",
+      "id": "chengdi-contract-termination-20260909",
+      "title": "城地香江解除4.03亿元数据中心合同",
+      "why": "城地香江因竞争和原料涨价解除4.03亿元数据中心总包合同。公告收盘后出现，尚无交易反应；这不是行业订单普遍恶化的证据，但会改变公司项目预期。核对结算、赔偿、应收款和在手订单；若损失较小且同量级订单补位，风险可下调。",
+      "what_changed": "城地香江披露解除一项合同金额约4.03亿元的数据中心总承包合同，原因包括行业竞争加剧和原材料价格上涨。",
+      "priced_in": "相关报道于9月9日22:58发布，晚于A股收盘，尚无解除合同后的交易反馈；未取得可靠盘口数据，不判断跌幅空间。",
+      "watch": "核对终止协议中的工程结算、违约或赔偿安排、应收款回收和剩余在手订单，并观察是否出现可替代的新订单。",
+      "invalidates": "若公司后续确认财务影响很小、款项顺利结清且新增同量级订单补位，短期风险可下调；若出现减值或回款问题，风险增强。",
+      "kind": "risk",
+      "novelty": "new",
+      "sectors": [
+        "数据中心建设"
+      ],
+      "companies": [
+        {
+          "name": "城地香江",
+          "code": "603887",
+          "exchange": "SSE",
+          "relation": "被解除数据中心总承包合同的直接主体，合同金额约4.03亿元。",
+          "source_ids": [
+            "chengdi-contract-20260909"
+          ]
+        }
+      ],
+      "source_ids": [
+        "chengdi-contract-20260909"
+      ]
+    }
+  ],
+  "review": [
+    {
+      "original_report_id": "premarket-2026-09-09",
+      "original_event_id": "sugar-market-20260908",
+      "original_view": "昨日白糖期货与糖业、代糖股票同步走强，是已发生的行情更新，不是昨夜新增利好。报道中的减产预期仍待实际供给数据验证，不能直接等同利润增长。接下来同时观察糖价、股票上涨范围及企业成本端；若期价回落而股票继续透支预期，或成本抵消提价，延续判断减弱。",
+      "day_offset": 1,
+      "status": "supported",
+      "what_happened": "第1个交易日，红棉股份再度涨停，中粮糖业两日累计涨19.93%，价格延续得到支持；但盘后公告明确短期业绩影响不确定，因此只确认交易表现，不确认利润逻辑，继续跟踪。",
+      "source_ids": [
+        "commodity-risk-notices-20260909"
+      ]
+    }
+  ],
+  "review_note": "已检查第1、3、5个交易日原版：9月9日归档可做第1日跟踪；9月7日、9月3日没有合格的实时盘前日归档，9月8日是回溯样稿，均不补做命中判断。糖价判断目前只获价格延续支持，利润验证仍未完成。",
+  "calendar": [
+    {
+      "title": "美国8月PPI（待公布）",
+      "date": "2026-09-10",
+      "scheduled_at": "2026-09-10T20:30:00+08:00",
+      "time_precision": "minute",
+      "why": "北京时间今晚20:30计划公布；高油价下关注生产端通胀与利率预期，跨夜仓位需考虑数据波动。",
+      "source_ids": [
+        "bls-ppi-calendar"
+      ]
+    },
+    {
+      "title": "美国8月CPI（待公布）",
+      "date": "2026-09-11",
+      "scheduled_at": "2026-09-11T20:30:00+08:00",
+      "time_precision": "minute",
+      "why": "北京时间11日20:30计划公布；关注数据对美债收益率、美元和成长股估值的影响，不预填数值。",
+      "source_ids": [
+        "bls-cpi-calendar"
+      ]
+    },
+    {
+      "title": "中国8月国民经济运行情况（待公布）",
+      "date": "2026-09-15",
+      "scheduled_at": "2026-09-15T10:00:00+08:00",
+      "time_precision": "minute",
+      "why": "15日10:00计划公布生产、消费和投资数据，检验价格修复是否有需求支撑；官方日程可能调整。",
+      "source_ids": [
+        "nbs-calendar-2026"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "sse-holidays-2026",
+      "title": "关于上海证券交易所2026年部分节假日休市安排的通知",
+      "url": "https://www.sse.com.cn/disclosure/announcement/general/c/c_20251222_10802507.shtml",
+      "publisher": "上海证券交易所",
+      "source_type": "official",
+      "published_at": null,
+      "published_date": "2025-12-22",
+      "time_precision": "day",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "年度官方休市安排原文仅标日期；9月10日为周四，且不在中秋节、国庆节等休市区间。",
+      "reference_only": false
+    },
+    {
+      "id": "sse-latest-notices",
+      "title": "上交所一般公告",
+      "url": "https://www.sse.com.cn/disclosure/announcement/general/",
+      "publisher": "上海证券交易所",
+      "source_type": "official",
+      "published_at": null,
+      "published_date": null,
+      "time_precision": "unknown",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "动态列表无统一发布时间；截稿前可见最新9月9日常规公告，未见9月10日全市场临时休市通知。与年度安排及已核实日历交叉判断。",
+      "reference_only": false
+    },
+    {
+      "id": "ashare-close-20260909",
+      "title": "周期板块延续强势 沪指收获日线两连阳",
+      "url": "https://www.stcn.com/article/detail/4178967.html",
+      "publisher": "上海证券报／证券时报网",
+      "source_type": "media",
+      "published_at": "2026-09-10T07:22:00+08:00",
+      "published_date": "2026-09-10",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "原文07:22发布，行情明确为9月9日收盘；沪深成交额口径为两市合计，不含北交所。",
+      "reference_only": false
+    },
+    {
+      "id": "ap-us-oil-20260909",
+      "title": "Stocks fall on Wall Street as oil prices jump back above $100 a barrel after Iran war escalates",
+      "url": "https://apnews.com/article/stock-markets-inflation-currencies-fed-rates-d1284eb72934a3b076c14449bc087fbd",
+      "publisher": "Associated Press",
+      "source_type": "media",
+      "published_at": "2026-09-10T04:20:25+08:00",
+      "published_date": "2026-09-10",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "检索元数据标示9月9日20:20:25 UTC，换算为北京时间9月10日04:20:25；正文确认美国当地周三收盘与布伦特结算数据。",
+      "reference_only": false
+    },
+    {
+      "id": "nbs-ppi-202608",
+      "title": "2026年8月份工业生产者出厂价格同比上涨3.8% 环比上涨0.4%",
+      "url": "https://www.stats.gov.cn/sj/zxfbhjd/202609/t20260909_1965262.html",
+      "publisher": "国家统计局",
+      "source_type": "official",
+      "published_at": "2026-09-09T09:30:00+08:00",
+      "published_date": "2026-09-09",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "国家统计局原文09:30发布，列明8月PPI同比、环比及生产资料、生活资料分项。",
+      "reference_only": false
+    },
+    {
+      "id": "nbs-prices-interpretation-202608",
+      "title": "国家统计局城市司首席统计师董莉娟解读2026年8月份CPI和PPI数据",
+      "url": "https://www.stats.gov.cn/sj/zxfbhjd/202609/t20260909_1965261.html",
+      "publisher": "国家统计局",
+      "source_type": "official",
+      "published_at": "2026-09-09T09:30:00+08:00",
+      "published_date": "2026-09-09",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "官方解读09:30发布；用于核实CPI、核心CPI和PPI环比变化，不以专家预测替代实际数据。",
+      "reference_only": false
+    },
+    {
+      "id": "stcn-prices-202608",
+      "title": "八月消费与生产价格双双回正 经济显现修复暖意",
+      "url": "https://www.stcn.com/article/detail/4178876.html",
+      "publisher": "证券时报",
+      "source_type": "media",
+      "published_at": "2026-09-10T06:52:00+08:00",
+      "published_date": "2026-09-10",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "原文06:52发布，复核8月CPI环比0.4%、同比0.8%、核心CPI同比1.0%及PPI环比、同比数据。",
+      "reference_only": false
+    },
+    {
+      "id": "commodity-risk-notices-20260909",
+      "title": "全线爆发！多只连板牛股，密集公告",
+      "url": "https://www.stcn.com/article/detail/4178858.html",
+      "publisher": "证券时报网",
+      "source_type": "media",
+      "published_at": "2026-09-09T23:22:00+08:00",
+      "published_date": "2026-09-09",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "原文23:22发布并逐项转述公司公告；用于核实红棉、精艺、黑猫的风险提示及9月8日至9日价格表现。本次未取得公告原文件可读正文。",
+      "reference_only": false
+    },
+    {
+      "id": "qiaoyin-compute-20260909",
+      "title": "切入算力租赁！“环卫第一股”拟2.65亿采购服务器",
+      "url": "https://www.stcn.com/article/detail/4178776.html",
+      "publisher": "证券时报网",
+      "source_type": "media",
+      "published_at": "2026-09-09T21:16:00+08:00",
+      "published_date": "2026-09-09",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "原文21:16发布，转述公司公告中的采购、合同、资金来源及无业绩保证条款；消息在A股收盘后公开。",
+      "reference_only": false
+    },
+    {
+      "id": "chengdi-contract-20260909",
+      "title": "603887，数据中心项目，解除合同",
+      "url": "https://www.stcn.com/article/detail/4178845.html",
+      "publisher": "证券时报网",
+      "source_type": "media",
+      "published_at": "2026-09-09T22:58:00+08:00",
+      "published_date": "2026-09-09",
+      "time_precision": "minute",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "原文22:58发布，转述城地香江解除约4.03亿元数据中心总承包合同的公告；消息在A股收盘后公开。",
+      "reference_only": false
+    },
+    {
+      "id": "bls-ppi-calendar",
+      "title": "Schedule of Releases for the Producer Price Index",
+      "url": "https://www.bls.gov/schedule/news_release/ppi.htm",
+      "publisher": "美国劳工统计局（BLS）",
+      "source_type": "official",
+      "published_at": null,
+      "published_date": null,
+      "time_precision": "unknown",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "静态官方日历无统一发布日期；截稿前核对8月PPI定于9月10日美东08:30发布，当日为夏令时，换算北京时间20:30。",
+      "reference_only": false
+    },
+    {
+      "id": "bls-cpi-calendar",
+      "title": "Schedule of Releases for the Consumer Price Index",
+      "url": "https://www.bls.gov/schedule/news_release/cpi.htm",
+      "publisher": "美国劳工统计局（BLS）",
+      "source_type": "official",
+      "published_at": null,
+      "published_date": null,
+      "time_precision": "unknown",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "静态官方日历无统一发布日期；截稿前核对8月CPI定于9月11日美东08:30发布，当日为夏令时，换算北京时间20:30。",
+      "reference_only": false
+    },
+    {
+      "id": "nbs-calendar-2026",
+      "title": "2026年国家统计局主要统计信息发布日程表",
+      "url": "https://www.stats.gov.cn/xxgk/sjfb/fbrcb/202512/t20251224_1962137.html",
+      "publisher": "国家统计局",
+      "source_type": "official",
+      "published_at": null,
+      "published_date": "2025-12-25",
+      "time_precision": "day",
+      "retrieved_at": "2026-09-10T08:03:46+08:00",
+      "timing_note": "官方日程为北京时间，9月15日10:00安排发布国民经济运行情况；原表注明为初步计划，可能调整。",
+      "reference_only": false
+    }
+  ],
+  "disclaimer": "本简报为公开信息研究与条件跟踪，不构成收益保证或个性化买卖建议。"
+}
